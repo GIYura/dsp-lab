@@ -1,8 +1,8 @@
 # ============================================================
-# Plot window function generated data files
+# Plot windowed signal generated data files
 # ============================================================
 
-file_window = "window.dat"
+file_windowed = "windowed.dat"
 
 #
 # Helper function:
@@ -13,17 +13,17 @@ file_exists(fname) = \
     (system(sprintf("test -f '%s'", fname)), GPVAL_SYSTEM_ERRNO == 0)
 
 #
-# Window
+# Windowed signal
 #
-if (file_exists(file_window)) {
-    set term qt 1 title "Window function"
+if (file_exists(file_windowed)) {
+    set term qt 2 title "Windowed signal"
     set grid
-    set xlabel "Sample index"
-    set ylabel "Window coefficient"
+    set xlabel "Time, ms"
+    set ylabel "Amplitude"
 
-    plot file_window using 0:1 with lines lw 3 notitle
+    plot file_windowed using 2:3 with lines lw 3 notitle
 } else {
-    print sprintf("WARNING: '%s' not found.", file_window)
+    print sprintf("WARNING: '%s' not found.", file_windowed)
     exit -1
 }
 

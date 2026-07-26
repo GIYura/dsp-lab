@@ -8,7 +8,7 @@ SCRIPT = scripts
 STANDARD = -std=c99
 OPTIMIZATION = -O0
 
-CFLAGS = $(STANDARD) -g $(OPTIMIZATION) -Wall -Wpedantic -MP -MMD
+CFLAGS = $(STANDARD) -g $(OPTIMIZATION) -Wall -Wpedantic -Wextra -MP -MMD
 LDLIBS = -lm
 
 SRC = $(wildcard $(SRCDIR)/*.c)
@@ -24,34 +24,39 @@ $(TARGET): $(OBJ)
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 	
-DEP := $(OBJ:.o=.d)
+DEP = $(OBJ:.o=.d)
 -include $(DEP)
 
 clean:
-	@$(RM) *.o *.d *.out *.s *.i *.dat
+	@$(RM) *.dat
+	@$(RM) $(SRCDIR)/*.o $(SRCDIR)/*.d $(SRCDIR)/*.out $(SRCDIR)/*.s $(SRCDIR)/*.i
 	@$(RM) $(TARGET)
 	@echo 'Cleaning ... Done!'
 	
 help:
 	@echo 'Run:'
 	@echo '- make plot_in - display input signal'
-	@echo '- make plot_sp - display spectrum'
-	@echo '- make plot_win - display window function'
+	@echo '- make plot_spectrum - display spectrum'
+	@echo '- make plot_window - display window function'
+	@echo '- make plot_windowed - display windowed samples'
 	@echo '- make plot_all - display all diagrams'
 	@echo '- make - build project'
 	@echo '- make clean - clean project'
 
-debug:
-	@echo $(SRC)
+run: $(TARGET)
+	./$(TARGET)
 
-plot_in:
+plot_in: run
 	$(PLOT) $(SCRIPT)/plot_in.gp
 	
-plot_win:
+plot_window: run
 	$(PLOT) $(SCRIPT)/plot_window.gp
 	
-plot_sp:
+plot_windowed: run
+	$(PLOT) $(SCRIPT)/plot_windowed.gp
+	
+plot_spectrum: run
 	$(PLOT) $(SCRIPT)/plot_spectrum.gp
 
-plot_all:
+plot_all: run
 	$(PLOT) $(SCRIPT)/plot_all.gp
