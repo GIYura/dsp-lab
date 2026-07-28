@@ -4,11 +4,11 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define WINDOW_ENABLE       (1)
+#define WINDOW_ENABLE       (0)
 
 #define DFT_ENABLE          (1)
 #define FFT_ENABLE          (0)
-#define FIR_ENABLE          (1)
+#define FIR_ENABLE          (0)
 
 #define FREQ_SAMPLE_HZ      (16000.0)
 #define PI                  (3.14159265358979323846)

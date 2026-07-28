@@ -13,9 +13,13 @@ static harmonic_t signal[HARMONIC_COUNT];
 
 #if DFT_ENABLE
 static double dftSamples[DFT_SIZE];
+#if FIR_ENABLE
 static double dftSamplesConvoluted[CONV_SIZE];
+#endif
 static bin_t dftBins[DFT_SIZE];
+#if WINDOW_ENABLE == 0
 static complex_t dftSpectrumRaw[DFT_SIZE];
+#endif
 #endif
 
 #if FFT_ENABLE
@@ -32,9 +36,11 @@ static double dftSamplesWeighted[DFT_SIZE];
 static complex_t dftSpectrumWeighted[DFT_SIZE];
 #endif
 
+#if FIR_ENABLE
 static double firCoeff[FIR_TAP_COUNT];
 static double firCoeffWindowed[FIR_TAP_COUNT];
 static double firCoeffNormalized[FIR_TAP_COUNT];
+#endif
 
 #if DFT_ENABLE && FFT_ENABLE
 #error "Only one algorithm can be enabled: DFT_ENABLE or FFT_ENABLE."
@@ -42,14 +48,15 @@ static double firCoeffNormalized[FIR_TAP_COUNT];
 
 int main(void)
 {
-#if 1
+#if 0
     /* Create LPF */
     FIR_LowPassGenerate(firCoeff, FIR_TAP_COUNT, FREQ_SAMPLE_HZ, LPF_CUT_OFF_HZ);
     WindowGenerate(WINDOW_HANN, window, FIR_TAP_COUNT);
     WindowApply(firCoeff, window, firCoeffWindowed, FIR_TAP_COUNT);
     FIR_Normalize(firCoeffWindowed, firCoeffNormalized, FIR_TAP_COUNT);
 
-    SaveFirCoeffDat(firCoeff, FIR_TAP_COUNT);
+    //SaveFirCoeffDat(firCoeff, FIR_TAP_COUNT);
+    SaveDat("fir_coeff.dat", firCoeff, FIR_TAP_COUNT);
     SaveFirCoeffNormalizedDat(firCoeffNormalized, FIR_TAP_COUNT);
     SaveFirCoeffWindowedDat(firCoeffWindowed, FIR_TAP_COUNT);
 
@@ -73,8 +80,10 @@ int main(void)
     SaveSpectrumDat(dftBins, dftSpectrumRaw, DFT_SIZE);
 #endif
 
-#if 0
+#if 1
     SignalHarmonicAdd(signal, 1000.0, 1.0, 0.0);
+    SignalHarmonicAdd(signal, 2000.0, 1.0, 0.0);
+    SignalHarmonicAdd(signal, 3000.0, 1.0, 0.0);
 
     ConfigSettingsPrint();
     SignalPrintConfig(signal, HARMONIC_COUNT);

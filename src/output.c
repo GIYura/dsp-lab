@@ -27,7 +27,7 @@ void SaveWindowedSignalDat(const double* samples, uint16_t count)
 {
     assert(samples != NULL);
 
-    double time_ms = 0.0;
+    double timeMs = 0.0;
 
     FILE *fp = fopen("windowed.dat", "w");
     if (!fp)
@@ -37,8 +37,8 @@ void SaveWindowedSignalDat(const double* samples, uint16_t count)
 
     for (uint16_t i = 0; i < count; i++)
     {
-        time_ms = 1000.0 * (double)i / FREQ_SAMPLE_HZ;
-        fprintf(fp, "%2u %8.3f %9.4f\n" , i, time_ms, samples[i]);
+        timeMs = 1000.0 * (double)i / FREQ_SAMPLE_HZ;
+        fprintf(fp, "%2u %8.3f %9.4f\n" , i, timeMs, samples[i]);
     }
 
     fclose(fp);
@@ -48,7 +48,7 @@ void SaveInputDat(const double* samples, uint16_t count)
 {
     assert(samples != NULL);
 
-    double time_ms = 0.0;
+    double timeMs = 0.0;
 
     FILE *fp = fopen("input.dat", "w");
     if (!fp)
@@ -58,8 +58,8 @@ void SaveInputDat(const double* samples, uint16_t count)
 
     for (uint16_t i = 0; i < count; i++)
     {
-        time_ms = 1000.0 * (double)i / FREQ_SAMPLE_HZ;
-        fprintf(fp, "%2u %8.3f %9.4f\n" , i, time_ms, samples[i]);
+        timeMs = 1000.0 * (double)i / FREQ_SAMPLE_HZ;
+        fprintf(fp, "%2u %8.3f %9.4f\n" , i, timeMs, samples[i]);
     }
 
     fclose(fp);
@@ -96,7 +96,7 @@ void SaveFirCoeffDat(const double* const coeff, uint32_t count)
 
     for (uint32_t i = 0; i < count; i++)
     {
-        fprintf(fp,"%.6f\n", coeff[i]);
+        fprintf(fp, "%.6f\n", coeff[i]);
     }
 
     fclose(fp);
@@ -114,7 +114,7 @@ void SaveFirCoeffWindowedDat(const double* const coeff, uint32_t count)
 
     for (uint32_t i = 0; i < count; i++)
     {
-        fprintf(fp,"%.6f\n", coeff[i]);
+        fprintf(fp," %.6f\n", coeff[i]);
     }
 
     fclose(fp);
@@ -132,9 +132,28 @@ void SaveFirCoeffNormalizedDat(const double* const coeff, uint32_t count)
 
     for (uint32_t i = 0; i < count; i++)
     {
-        fprintf(fp,"%.6f\n", coeff[i]);
+        fprintf(fp, "%.6f\n", coeff[i]);
     }
 
     fclose(fp);
 }
 
+
+void SaveDat(const char* const fileName, const double* const in, uint32_t count)
+{
+    assert(fileName != NULL);
+    assert(in != NULL);
+
+    FILE *fp = fopen(fileName, "w");
+    if (!fp)
+    {
+        return;
+    }
+
+    for (uint32_t i = 0; i < count; i++)
+    {
+        fprintf(fp, "%.6f\n", in[i]);
+    }
+
+    fclose(fp);
+}
