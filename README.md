@@ -28,10 +28,10 @@ make
 make help
 ```
 
-2. Show all graphs
+2. Show DFT/FFT graphs
 
 ```
-make plot_all
+make plot_dft_fft_all
 ```
 
 3. Show individual graphs

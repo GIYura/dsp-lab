@@ -21,7 +21,7 @@ if (file_exists(file_spectrum)) {
     set xlabel "Frequency, Hz"
     set ylabel "Raw FFT/DFT magnitude"
 
-    plot file_spectrum using 2:3 with impulses lw 3 notitle
+    plot file_spectrum using 2:3 with lines lw 3 notitle
 } else {
     print sprintf("WARNING: '%s' not found.", file_spectrum)
     exit -1

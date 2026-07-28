@@ -39,7 +39,7 @@ help:
 	@echo '- make plot_spectrum - display spectrum'
 	@echo '- make plot_window - display window function'
 	@echo '- make plot_windowed - display windowed samples'
-	@echo '- make plot_all - display all diagrams'
+	@echo '- make plot_dft_fft_all - display DFT/FFT diagrams'
 	@echo '- make - build project'
 	@echo '- make clean - clean project'
 
@@ -58,5 +58,14 @@ plot_windowed: run
 plot_spectrum: run
 	$(PLOT) $(SCRIPT)/plot_spectrum.gp
 
-plot_all: run
-	$(PLOT) $(SCRIPT)/plot_all.gp
+plot_dft_fft_all: run
+	$(PLOT) $(SCRIPT)/plot_dft_fft_all.gp
+
+plot_fir_coeff: run
+	$(PLOT) $(SCRIPT)/plot_fir_coeff.gp
+
+plot_fir_coeff_wind: run
+	$(PLOT) $(SCRIPT)/plot_fir_coeff_wind.gp
+
+plot_fir_coeff_norm: run
+	$(PLOT) $(SCRIPT)/plot_fir_coeff_norm.gp

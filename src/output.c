@@ -83,3 +83,58 @@ void SaveSpectrumDat(const bin_t* bins, const complex_t* spectrum, uint16_t coun
 
     fclose(fp);
 }
+
+void SaveFirCoeffDat(const double* const coeff, uint32_t count)
+{
+    assert(coeff != NULL);
+
+    FILE *fp = fopen("fir_coeff.dat", "w");
+    if (!fp)
+    {
+        return;
+    }
+
+    for (uint32_t i = 0; i < count; i++)
+    {
+        fprintf(fp,"%.6f\n", coeff[i]);
+    }
+
+    fclose(fp);
+}
+
+void SaveFirCoeffWindowedDat(const double* const coeff, uint32_t count)
+{
+    assert(coeff != NULL);
+
+    FILE *fp = fopen("fir_coeff_windowed.dat", "w");
+    if (!fp)
+    {
+        return;
+    }
+
+    for (uint32_t i = 0; i < count; i++)
+    {
+        fprintf(fp,"%.6f\n", coeff[i]);
+    }
+
+    fclose(fp);
+}
+
+void SaveFirCoeffNormalizedDat(const double* const coeff, uint32_t count)
+{
+    assert(coeff != NULL);
+
+    FILE *fp = fopen("fir_coeff_normalized.dat", "w");
+    if (!fp)
+    {
+        return;
+    }
+
+    for (uint32_t i = 0; i < count; i++)
+    {
+        fprintf(fp,"%.6f\n", coeff[i]);
+    }
+
+    fclose(fp);
+}
+

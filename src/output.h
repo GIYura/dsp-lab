@@ -34,4 +34,8 @@ void SaveInputDat(const double* samples, uint16_t count);
 * */
 void SaveSpectrumDat(const bin_t* bins,const complex_t* spectrum, uint16_t count);
 
+void SaveFirCoeffDat(const double* const coeff, uint32_t count);
+void SaveFirCoeffWindowedDat(const double* const coeff, uint32_t count);
+void SaveFirCoeffNormalizedDat(const double* const coeff, uint32_t count);
+
 #endif /* OUTPUT_H */

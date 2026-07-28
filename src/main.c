@@ -6,11 +6,14 @@
 #include "fft.h"
 #include "window.h"
 #include "output.h"
+#include "convolution.h"
+#include "fir.h"
 
 static harmonic_t signal[HARMONIC_COUNT];
 
 #if DFT_ENABLE
 static double dftSamples[DFT_SIZE];
+static double dftSamplesConvoluted[CONV_SIZE];
 static bin_t dftBins[DFT_SIZE];
 static complex_t dftSpectrumRaw[DFT_SIZE];
 #endif
@@ -29,25 +32,49 @@ static double dftSamplesWeighted[DFT_SIZE];
 static complex_t dftSpectrumWeighted[DFT_SIZE];
 #endif
 
+static double firCoeff[FIR_TAP_COUNT];
+static double firCoeffWindowed[FIR_TAP_COUNT];
+static double firCoeffNormalized[FIR_TAP_COUNT];
+
 #if DFT_ENABLE && FFT_ENABLE
 #error "Only one algorithm can be enabled: DFT_ENABLE or FFT_ENABLE."
 #endif
 
 int main(void)
 {
-    if (!SignalHarmonicAdd(signal, 1035.0, 1.0, 0.0))
-    {
-        printf("Failed to add harmonic\n");
-        return -1;
-    }
+#if 1
+    /* Create LPF */
+    FIR_LowPassGenerate(firCoeff, FIR_TAP_COUNT, FREQ_SAMPLE_HZ, LPF_CUT_OFF_HZ);
+    WindowGenerate(WINDOW_HANN, window, FIR_TAP_COUNT);
+    WindowApply(firCoeff, window, firCoeffWindowed, FIR_TAP_COUNT);
+    FIR_Normalize(firCoeffWindowed, firCoeffNormalized, FIR_TAP_COUNT);
+
+    SaveFirCoeffDat(firCoeff, FIR_TAP_COUNT);
+    SaveFirCoeffNormalizedDat(firCoeffNormalized, FIR_TAP_COUNT);
+    SaveFirCoeffWindowedDat(firCoeffWindowed, FIR_TAP_COUNT);
+
+    /* Create signal */
+    SignalHarmonicAdd(signal, 1000.0, 1.0, 0.0);
+    SignalHarmonicAdd(signal, 3000.0, 1.0, 0.0);
+    SignalHarmonicAdd(signal, 5000.0, 1.0, 0.0);
+
+    SignalPrintConfig(signal, HARMONIC_COUNT);
+    SignalGenerateSamples(signal, HARMONIC_COUNT, dftSamples, SAMPLE_COUNT);
+    DFT_GenerateBins(dftBins, DFT_SIZE);
+
+#if FIR_ENABLE
+    Convolution(dftSamples, dftSamplesConvoluted, firCoeffNormalized, SAMPLE_COUNT, FIR_TAP_COUNT);
+    DFT_Calculate(dftSamplesConvoluted, dftSpectrumRaw, DFT_SIZE);
+#else
+    DFT_Calculate(dftSamples, dftSpectrumRaw, DFT_SIZE);
+#endif
+
+    SaveInputDat(dftSamples, DFT_SIZE);
+    SaveSpectrumDat(dftBins, dftSpectrumRaw, DFT_SIZE);
+#endif
 
 #if 0
-    if (!SignalHarmonicAdd(signal, 2000.0, 0.5, 135.0))
-    {
-        printf("Failed to add harmonic\n");
-        return -1;
-    }
-#endif
+    SignalHarmonicAdd(signal, 1000.0, 1.0, 0.0);
 
     ConfigSettingsPrint();
     SignalPrintConfig(signal, HARMONIC_COUNT);
@@ -101,6 +128,6 @@ int main(void)
     SaveInputDat(fftSamples, FFT_SIZE);
     SaveSpectrumDat(fftBins, fftSpectrumRaw, FFT_SIZE);
 #endif /* FFT_ENABLE */
-
+#endif
     return 0;
 }
