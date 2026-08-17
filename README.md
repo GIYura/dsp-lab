@@ -46,4 +46,4 @@ gnuplot scripts/<lab>_demo.gp
 make clean
 ```
 
-**NOTE:** see config.h to change parameters.
+**NOTE:** see src/config.h to change demo parameters.
