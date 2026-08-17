@@ -3,41 +3,27 @@
 
 #include <stdint.h>
 
-#include "dft.h"
+#include "config.h"
+#include "complex.h"
 
-/* Brief: Save window function into .dat file
-* [in] - samples - pointer to samples storage
-* [in] - count - samples counter
-* [out] - none
-* */
-void SaveWindowDat(const double* samples, uint16_t count);
-
-/* Brief: Save windowed samples into .dat file
-* [in] - samples - pointer to samples storage
-* [in] - count - samples counter
-* [out] - none
-* */
-void SaveWindowedSignalDat(const double* samples, uint16_t count);
-
-/* Brief: Save input signal into .dat file
-* [in] - samples - pointer to samples storage
-* [in] - count - samples counter
-* [out] - none
-* */
-void SaveInputDat(const double* samples, uint16_t count);
+typedef double (*fp_t)(const complex_t* const value);
 
 /* Brief: Save spectrum into .dat file
+* [in] - fileName - pointer to file name
 * [in] - bins - pointer to bin storage
 * [in] - spectrum - pointer to spectrum storage
+* [in] - callback - pointer to function
 * [in] - count - bin counter
 * [out] - none
 * */
-void SaveSpectrumDat(const bin_t* bins, const complex_t* spectrum, uint16_t count);
+void SaveSpectrumDat(const char* const fileName, const bin_t* bins, const complex_t* spectrum, fp_t cb, uint16_t count);
 
-void SaveFirCoeffDat(const double* const coeff, uint32_t count);
-void SaveFirCoeffWindowedDat(const double* const coeff, uint32_t count);
-void SaveFirCoeffNormalizedDat(const double* const coeff, uint32_t count);
-
+/* Brief: Generic save into .dat file
+* [in] - fileName - pointer to file name
+* [in] - in - pointer to input storage
+* [in] - count - size of input storage
+* [out] - none
+* */
 void SaveDat(const char* const fileName, const double* const in, uint32_t count);
 
 #endif /* OUTPUT_H */

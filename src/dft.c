@@ -100,7 +100,7 @@ void DFT_Print(const bin_t* const bins, const complex_t* const spectrum, uint16_
     assert(spectrum != NULL);
 
     printf("DFT result:\n");
-    printf(" bin | frequency, Hz | sin result | cos result | magnitude\n");
+    printf(" bin | frequency, Hz | real result | imag result | magnitude\n");
     printf("-----+---------------+------------+------------+-----------\n");
 
     for (uint16_t i = 0; i < count; i++)
@@ -108,8 +108,8 @@ void DFT_Print(const bin_t* const bins, const complex_t* const spectrum, uint16_
         printf(" %3u | %13.3f | %11.4f | %11.4f | %9.4f\n",
                 bins[i].number,
                 bins[i].freqHz,
-                spectrum[i].imag,
                 spectrum[i].real,
+                spectrum[i].imag,
                 DFT_CalculateRawMagnitude(&spectrum[i]));
     }
 }

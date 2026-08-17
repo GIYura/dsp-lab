@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "config.h"
 #include "signal.h"
@@ -17,18 +18,18 @@ static double dftSamples[DFT_SIZE];
 static double dftSamplesConvoluted[CONV_SIZE];
 #endif
 static bin_t dftBins[DFT_SIZE];
-#if WINDOW_ENABLE == 0
+//#if WINDOW_ENABLE == 0
 static complex_t dftSpectrumRaw[DFT_SIZE];
-#endif
+//#endif
 #endif
 
-#if FFT_ENABLE
-static fft_stage1_t fftStage1;
-static fft_stage2_t fftStage2;
+//#if FFT_ENABLE
+//static fft_stage1_t fftStage1;
+//static fft_stage2_t fftStage2;
 static double fftSamples[FFT_SIZE];
 static bin_t fftBins[FFT_SIZE];
 static complex_t fftSpectrumRaw[FFT_SIZE];
-#endif
+//#endif
 
 #if WINDOW_ENABLE
 static double window[SAMPLE_COUNT];
@@ -37,9 +38,9 @@ static complex_t dftSpectrumWeighted[DFT_SIZE];
 #endif
 
 #if FIR_ENABLE
-static double firCoeff[FIR_TAP_COUNT];
-static double firCoeffWindowed[FIR_TAP_COUNT];
-static double firCoeffNormalized[FIR_TAP_COUNT];
+static double firCoeff[FIR_TAP_COUNT + ZERO_PADDING_COUNT];
+static double firCoeffWindowed[FIR_TAP_COUNT + ZERO_PADDING_COUNT];
+static double firCoeffNormalized[FIR_TAP_COUNT + ZERO_PADDING_COUNT];
 #endif
 
 #if DFT_ENABLE && FFT_ENABLE
@@ -48,6 +49,35 @@ static double firCoeffNormalized[FIR_TAP_COUNT];
 
 int main(void)
 {
+    SignalHarmonicAdd(signal, 1000.0, 1.0, 0.0);
+    SignalHarmonicAdd(signal, 2000.0, 0.0, 0.0);
+    SignalHarmonicAdd(signal, 3000.0, 0.0, 0.0);
+
+    SignalGenerateSamples(signal, HARMONIC_COUNT, fftSamples, SAMPLE_COUNT);
+
+    FFT_GenerateBins(fftBins, FFT_SIZE);
+    FFT_Calculate(fftSamples, fftSpectrumRaw, FFT_SIZE);
+    FFT_Print(fftBins, fftSpectrumRaw, FFT_SIZE);
+    SaveSpectrumDat(fftBins, fftSpectrumRaw, FFT_CalculateRawMagnitude, FFT_SIZE);
+
+#if 0
+    for (uint32_t i = 0; i < (FIR_TAP_COUNT + ZERO_PADDING_COUNT); i++)
+    {
+        firCoeffNormalized[i] = 1.1;
+    }
+
+    FIR_LowPassGenerate(firCoeff, FIR_TAP_COUNT, FREQ_SAMPLE_HZ, LPF_CUT_OFF_HZ);
+    WindowGenerate(WINDOW_HANN, window, FIR_TAP_COUNT);
+    WindowApply(firCoeff, window, firCoeffWindowed, FIR_TAP_COUNT);
+    FIR_Normalize(firCoeffWindowed, firCoeffNormalized, FIR_TAP_COUNT);
+
+    SignalZeroPadding(firCoeffNormalized, FIR_TAP_COUNT, ZERO_PADDING_COUNT);
+
+    DFT_GenerateBins(dftBins, FIR_TAP_COUNT + ZERO_PADDING_COUNT);
+    DFT_Calculate(firCoeffNormalized, dftSpectrumRaw, FIR_TAP_COUNT + ZERO_PADDING_COUNT);
+
+    SaveSpectrumDat(dftBins, dftSpectrumRaw, (FIR_TAP_COUNT + ZERO_PADDING_COUNT) / 2);
+#endif
 #if 0
     /* Create LPF */
     FIR_LowPassGenerate(firCoeff, FIR_TAP_COUNT, FREQ_SAMPLE_HZ, LPF_CUT_OFF_HZ);
@@ -80,7 +110,7 @@ int main(void)
     SaveSpectrumDat(dftBins, dftSpectrumRaw, DFT_SIZE);
 #endif
 
-#if 1
+#if 0
     SignalHarmonicAdd(signal, 1000.0, 1.0, 0.0);
     SignalHarmonicAdd(signal, 2000.0, 1.0, 0.0);
     SignalHarmonicAdd(signal, 3000.0, 1.0, 0.0);

@@ -1,44 +1,49 @@
-## Description 
+# DSP Lab
 
-Digital Signal Processing (DSP) laboratory written in C.
+A small collection of standalone DSP experiments built around shared C modules.
+Each lab has its own entry point and can be built and run independently.
+Generated binaries and data files are kept in the `output/` directory.
 
-The project currently includes signal generation, window functions,
-DFT calculation and spectrum visualization using Gnuplot.
+## Build
 
-FFT, FIR/IIR filters, convolution and correlation will be added
-as the project evolves.
-
-### Build
+Build one lab from the project root:
 
 ```
-make
+make <lab>
 ```
 
-### Run
-
-```
-./dsp-lab
-```
-
-### Display graphs
-
-1. Run command below to see options
+To see the available build targets:
 
 ```
 make help
 ```
 
-2. Show DFT/FFT graphs
+To build all labs:
 
 ```
-make plot_dft_fft_all
+make all
 ```
 
-3. Show individual graphs
+## Run
+
+Run a built demo from the `output/` directory:
 
 ```
-make plot_in
-make plot_window
-make plot_windowed
-make plot_spectrum
+cd output
+./<lab>_demo
 ```
+
+Return to the project root before running a plotting script:
+
+```
+cd ..
+gnuplot scripts/<lab>_demo.gp
+```
+
+## Clean
+
+```
+make clean
+```
+
+**NOTE:** see config.h to change parameters.

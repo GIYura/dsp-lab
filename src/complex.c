@@ -12,7 +12,7 @@ complex_t ComplexAdd(complex_t left, complex_t right)
     return result;
 }
 
-complex_t ComplexSubtract(complex_t left, complex_t right)
+complex_t ComplexSub(complex_t left, complex_t right)
 {
     complex_t result;
 
@@ -22,7 +22,7 @@ complex_t ComplexSubtract(complex_t left, complex_t right)
     return result;
 }
 
-complex_t ComplexMultiply(complex_t left, complex_t right)
+complex_t ComplexMul(complex_t left, complex_t right)
 {
     complex_t result;
 
@@ -38,7 +38,7 @@ complex_t ComplexMultiply(complex_t left, complex_t right)
     return result;
 }
 
-complex_t ComplexDivide(complex_t left, complex_t right)
+complex_t ComplexDiv(complex_t left, complex_t right)
 {
     complex_t result;
     double denominator;

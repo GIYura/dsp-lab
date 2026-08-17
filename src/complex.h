@@ -19,14 +19,14 @@ complex_t ComplexAdd(complex_t left, complex_t right);
 * [in] - right - second complex number
 * [out] - subtraction result
 * */
-complex_t ComplexSubtract(complex_t left, complex_t right);
+complex_t ComplexSub(complex_t left, complex_t right);
 
 /* Brief: Multiply two complex numbers
 * [in] - left - first complex number
 * [in] - right - second complex number
 * [out] - multiplication result
 * */
-complex_t ComplexMultiply(complex_t left, complex_t right);
+complex_t ComplexMul(complex_t left, complex_t right);
 
 /* Brief: Divide two complex numbers
 * NOTE: right must not be equal to 0 + j0
@@ -34,6 +34,6 @@ complex_t ComplexMultiply(complex_t left, complex_t right);
 * [in] - right - denominator
 * [out] - division result
 * */
-complex_t ComplexDivide(complex_t left, complex_t right);
+complex_t ComplexDiv(complex_t left, complex_t right);
 
 #endif /* COMPLEX_H */

@@ -1,71 +1,69 @@
-CC = gcc
-RM = rm -rf
+CC := gcc
+RM := rm -rf
 
-PLOT = gnuplot
-SRCDIR = src
-SCRIPT = scripts
+CFLAGS := -std=c99 -g -O0 -Wall -Wpedantic -Wextra -Isrc
+LDLIBS := -lm
 
-STANDARD = -std=c99
-OPTIMIZATION = -O0
+OUTDIR := output
 
-CFLAGS = $(STANDARD) -g $(OPTIMIZATION) -Wall -Wpedantic -Wextra -MP -MMD
-LDLIBS = -lm
+DFT := $(OUTDIR)/dft_demo
+FFT := $(OUTDIR)/fft_demo
+WINDOW := $(OUTDIR)/window_demo
+CONV := $(OUTDIR)/convolution_demo
+FIR := $(OUTDIR)/fir_demo
 
-SRC = $(wildcard $(SRCDIR)/*.c)
-OBJ = $(SRC:.c=.o)
-TARGET = dsp-lab
+.PHONY: all dft fft window convolution fir clean help
 
-all: $(TARGET)
+all: dft fft window convolution fir
 
-$(TARGET): $(OBJ)
-	@$(CC) $^ -o $@ $(LDLIBS)
-	@echo 'Done!'
+dft: $(DFT)
 
-%.o: %.c
-	@$(CC) $(CFLAGS) -c $< -o $@
-	
-DEP = $(OBJ:.o=.d)
--include $(DEP)
+fft: $(FFT)
+
+window: $(WINDOW)
+
+convolution: $(CONV)
+
+fir: $(FIR)
+
+$(OUTDIR):
+	@mkdir -p $@
+
+$(DFT): labs/dft/main.c src/dft.c src/config.c src/signal.c src/output.c | $(OUTDIR)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
+	@echo 'DFT Done!'
+
+$(FFT): labs/fft/main.c src/fft.c src/config.c src/signal.c src/output.c src/complex.c | $(OUTDIR)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
+	@echo 'FFT Done!'
+
+$(WINDOW): labs/window/main.c src/config.c src/window.c src/signal.c src/output.c | $(OUTDIR)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
+	@echo 'WINDOW Done!'
+
+$(CONV): labs/convolution/main.c src/config.c src/convolution.c src/signal.c src/output.c | $(OUTDIR)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
+	@echo 'CONV Done!'
+
+$(FIR): labs/fir/main.c src/fir.c src/signal.c src/dft.c src/convolution.c src/config.c src/window.c src/output.c | $(OUTDIR)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
+	@echo 'FIR Done!'
 
 clean:
-	@$(RM) *.dat
-	@$(RM) $(SRCDIR)/*.o $(SRCDIR)/*.d $(SRCDIR)/*.out $(SRCDIR)/*.s $(SRCDIR)/*.i
-	@$(RM) $(TARGET)
+	@$(RM) $(OUTDIR)
 	@echo 'Cleaning ... Done!'
-	
+
 help:
-	@echo 'Run:'
-	@echo '- make plot_in - display input signal'
-	@echo '- make plot_spectrum - display spectrum'
-	@echo '- make plot_window - display window function'
-	@echo '- make plot_windowed - display windowed samples'
-	@echo '- make plot_dft_fft_all - display DFT/FFT diagrams'
-	@echo '- make - build project'
-	@echo '- make clean - clean project'
-
-run: $(TARGET)
-	./$(TARGET)
-
-plot_in: run
-	$(PLOT) $(SCRIPT)/plot_in.gp
+	@echo "Build a lab:"
+	@echo "  make dft"
+	@echo "  make fft"
+	@echo "  make window"
+	@echo "  make convolution"
+	@echo "  make fir"
+	@echo ""
+	@echo "Build all labs:"
+	@echo "  make all"
+	@echo ""
+	@echo "Clean generated binaries and data:"
+	@echo "  make clean"
 	
-plot_window: run
-	$(PLOT) $(SCRIPT)/plot_window.gp
-	
-plot_windowed: run
-	$(PLOT) $(SCRIPT)/plot_windowed.gp
-	
-plot_spectrum: run
-	$(PLOT) $(SCRIPT)/plot_spectrum.gp
-
-plot_dft_fft_all: run
-	$(PLOT) $(SCRIPT)/plot_dft_fft_all.gp
-
-plot_fir_coeff: run
-	$(PLOT) $(SCRIPT)/plot_fir_coeff.gp
-
-plot_fir_coeff_wind: run
-	$(PLOT) $(SCRIPT)/plot_fir_coeff_wind.gp
-
-plot_fir_coeff_norm: run
-	$(PLOT) $(SCRIPT)/plot_fir_coeff_norm.gp
