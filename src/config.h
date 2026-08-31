@@ -18,7 +18,7 @@
 
 #define FIR_TAP_COUNT       (31U)
 #define CONV_SIZE           (SAMPLE_COUNT + FIR_TAP_COUNT - 1U)
-#define LPF_CUT_OFF_HZ      (4000.0)
+#define LPF_CUT_OFF_HZ      (1000.0)
 
 /* DFT and FFT bin description */
 typedef struct

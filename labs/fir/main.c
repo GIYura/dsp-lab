@@ -17,7 +17,7 @@ int main(void)
     bin_t bins[DFT_SIZE];
     double samplesConvoluted[CONV_SIZE];
     complex_t spectrum[DFT_SIZE];
-    complex_t amp_freq[DFT_SIZE];
+    complex_t ampFreqChar[DFT_SIZE];
 
     /* Create signal */
     SignalHarmonicAdd(signal, 1000.0, 1.0, 0.0);
@@ -47,8 +47,8 @@ int main(void)
 
     /* Create FIR amplitude frequency characteristics */
     DFT_GenerateBins(bins, FIR_TAP_COUNT);
-    DFT_Calculate(normalized, amp_freq, FIR_TAP_COUNT);
-    SaveSpectrumDat("amp_freq_fir.dat", bins, amp_freq, DFT_CalculateRawMagnitude, (FIR_TAP_COUNT / 2));
+    DFT_Calculate(normalized, ampFreqChar, FIR_TAP_COUNT);
+    SaveSpectrumDat("amp_freq_fir.dat", bins, ampFreqChar, DFT_CalculateRawMagnitude, (FIR_TAP_COUNT / 2));
 
     return 0;
 }
