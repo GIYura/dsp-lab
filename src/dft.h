@@ -36,4 +36,7 @@ double DFT_CalculateRawMagnitude(const complex_t* const spectrum);
 * */
 void DFT_Print(const bin_t* const bins, const complex_t* const spectrum, uint16_t count);
 
+void DFT_GenerateShiftedBins(bin_t *const bins, uint16_t count);
+void DFT_ShiftSpectrum(const complex_t *const input, complex_t *const output, uint16_t count);
+
 #endif /* DFT_H */

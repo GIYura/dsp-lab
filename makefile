@@ -13,10 +13,11 @@ CONV := $(OUTDIR)/convolution_demo
 FIR := $(OUTDIR)/fir_demo
 IIR := $(OUTDIR)/iir_demo
 IQ := $(OUTDIR)/iq_demo
+SHIFT := $(OUTDIR)/shift_demo
 
-.PHONY: all dft fft window convolution fir iir iq clean help
+.PHONY: all dft fft window convolution fir iir iq shift clean help
 
-all: dft fft window convolution fir iir iq
+all: dft fft window convolution fir iir iq shift
 
 dft: $(DFT)
 
@@ -31,6 +32,8 @@ fir: $(FIR)
 iir: $(IIR)
 
 iq: $(IQ)
+
+shift: $(SHIFT)
 
 $(OUTDIR):
 	@mkdir -p $@
@@ -59,9 +62,13 @@ $(IIR): labs/iir/main.c src/signal.c src/config.c src/iir.c src/dft.c src/output
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo 'IIR Done!'
 	
-$(IQ): labs/iq-vs-real/main.c src/signal.c src/config.c src/dft.c src/output.c | $(OUTDIR)
+$(IQ): labs/iq/main.c src/signal.c src/config.c src/dft.c src/output.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo 'IQ Done!'
+	
+$(SHIFT): labs/shift/main.c src/signal.c src/config.c src/dft.c src/output.c src/shift.c src/complex.c | $(OUTDIR)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
+	@echo 'SHIFT Done!'
 
 clean:
 	@$(RM) $(OUTDIR)
@@ -76,6 +83,7 @@ help:
 	@echo "  make fir"
 	@echo "  make iir"
 	@echo "  make iq"
+	@echo "  make shift"
 	@echo ""
 	@echo "Build all labs:"
 	@echo "  make all"

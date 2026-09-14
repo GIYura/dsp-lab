@@ -68,7 +68,6 @@ if (file_exists(file_spectrum)) {
     set xlabel "Frequency, Hz"
     set ylabel "Magnitude"
 
-    #plot file_spectrum using 2:3 with lines lw 3 notitle
     Fs = 8.0      # kHz
     Nyquist = Fs / 2.0
 

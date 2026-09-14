@@ -146,3 +146,39 @@ void DFT_Print(const bin_t* const bins, const complex_t* const spectrum, uint16_
                 DFT_CalculateRawMagnitude(&spectrum[i]));
     }
 }
+
+void DFT_GenerateShiftedBins(bin_t *const bins, uint16_t count)
+{
+    assert(bins != NULL);
+    assert(count > 0);
+
+    int32_t shiftedIndex;
+    double binStep = FREQ_SAMPLE_HZ / (double)count;
+    int32_t half = (int32_t)count / 2;
+
+    for (uint16_t i = 0; i < count; i++)
+    {
+        shiftedIndex = (int32_t)i - half;
+
+        bins[i].number = i;
+        bins[i].freqHz = (double)shiftedIndex * binStep;
+    }
+}
+
+void DFT_ShiftSpectrum(const complex_t *const input, complex_t *const output, uint16_t count)
+{
+    assert(input != NULL);
+    assert(output != NULL);
+    assert(count > 0);
+    assert((count % 2U) == 0U);
+
+    uint16_t half = count / 2U;
+    uint16_t src;
+
+    for (uint16_t i = 0; i < count; i++)
+    {
+        src = (uint16_t)((i + half) % count);
+        output[i] = input[src];
+    }
+}
+

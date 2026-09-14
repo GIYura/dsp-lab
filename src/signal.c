@@ -145,4 +145,3 @@ void SignalPrintConfig(const harmonic_t* const harmonic, uint16_t count)
     }
     printf("\n");
 }
-
