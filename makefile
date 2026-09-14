@@ -12,10 +12,11 @@ WINDOW := $(OUTDIR)/window_demo
 CONV := $(OUTDIR)/convolution_demo
 FIR := $(OUTDIR)/fir_demo
 IIR := $(OUTDIR)/iir_demo
+IQ := $(OUTDIR)/iq_demo
 
-.PHONY: all dft fft window convolution fir iir clean help
+.PHONY: all dft fft window convolution fir iir iq clean help
 
-all: dft fft window convolution fir iir
+all: dft fft window convolution fir iir iq
 
 dft: $(DFT)
 
@@ -28,6 +29,8 @@ convolution: $(CONV)
 fir: $(FIR)
 
 iir: $(IIR)
+
+iq: $(IQ)
 
 $(OUTDIR):
 	@mkdir -p $@
@@ -55,6 +58,10 @@ $(FIR): labs/fir/main.c src/fir.c src/signal.c src/dft.c src/convolution.c src/c
 $(IIR): labs/iir/main.c src/signal.c src/config.c src/iir.c src/dft.c src/output.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo 'IIR Done!'
+	
+$(IQ): labs/iq-vs-real/main.c src/signal.c src/config.c src/dft.c src/output.c | $(OUTDIR)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
+	@echo 'IQ Done!'
 
 clean:
 	@$(RM) $(OUTDIR)
@@ -68,6 +75,7 @@ help:
 	@echo "  make convolution"
 	@echo "  make fir"
 	@echo "  make iir"
+	@echo "  make iq"
 	@echo ""
 	@echo "Build all labs:"
 	@echo "  make all"

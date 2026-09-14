@@ -21,7 +21,7 @@ void SaveSpectrumDat(const char* const fileName, const bin_t* bins, const comple
 
     for (uint16_t i = 0; i < count; i++)
     {
-        fprintf(fp,"%u %.6f %.12f\n", bins[i].number, (bins[i].freqHz * 0.001), callback(&spectrum[i]));
+        fprintf(fp, "%u %.6f %.12f\n", bins[i].number, (bins[i].freqHz * 0.001), callback(&spectrum[i]));
     }
 
     fclose(fp);
@@ -41,6 +41,25 @@ void SaveDat(const char* const fileName, const double* const in, uint32_t count)
     for (uint32_t i = 0; i < count; i++)
     {
         fprintf(fp, "%.6f\n", in[i]);
+    }
+
+    fclose(fp);
+}
+
+void SaveIQDat(const char* const fileName, const complex_t* const in, uint32_t count)
+{
+    assert(fileName != NULL);
+    assert(in != NULL);
+
+    FILE *fp = fopen(fileName, "w");
+    if (!fp)
+    {
+        return;
+    }
+
+    for (uint32_t i = 0; i < count - 1; i++)
+    {
+        fprintf(fp, "%.6f %.6f %.6f %.6f\n", in[i].real, in[i].imag, in[i + 1].real - in[i].real, in[i + 1].imag - in[i].imag);
     }
 
     fclose(fp);

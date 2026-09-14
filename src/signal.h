@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "complex.h"
+
 typedef struct
 {
     double freqHz;
@@ -29,6 +31,8 @@ bool SignalHarmonicAdd(harmonic_t* harmonic, double freqHz, double amp, double p
 * */
 void SignalGenerateSamples(const harmonic_t* const harmonic, uint8_t harmCount, double* samples, uint16_t sampleCount);
 
+void SignalGenerateIQSamples(const harmonic_t* harmonics, uint8_t harmCount, complex_t* const samples, uint16_t sampleCount);
+
 /* Brief: Append zeros to samples
 * [in] - samples - pointer to samples storage
 * [in] - sampleCount - samples counter
@@ -43,6 +47,8 @@ void SignalZeroPadding(double* samples, uint16_t sampleCount, uint16_t zeroCount
 * [out] - none
 * */
 void SignalPrintSamples(const double* const samples, uint16_t count);
+
+void SignalPrintIQSamples(const complex_t* const samples, uint16_t count);
 
 /* Brief: Print signal config
 * [in] - harmonic - pointer to harmonic_t struct

@@ -25,5 +25,6 @@ void SaveSpectrumDat(const char* const fileName, const bin_t* bins, const comple
 * [out] - none
 * */
 void SaveDat(const char* const fileName, const double* const in, uint32_t count);
+void SaveIQDat(const char* const fileName, const complex_t* const in, uint32_t count);
 
 #endif /* OUTPUT_H */

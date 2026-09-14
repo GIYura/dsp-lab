@@ -56,6 +56,22 @@ static double CompareTemplate(const double* const samples, const double* const t
     return result;
 }
 
+static complex_t CompareTemplateComplex(const complex_t* const samples, const double* const cosTemplate, const double* const sinTemplate, uint16_t dftSize)
+{
+    complex_t result;
+
+    result.imag = 0;
+    result.real = 0;
+
+    for (uint16_t i = 0; i < dftSize; i++)
+    {
+        result.real += samples[i].real * cosTemplate[i] + samples[i].imag * sinTemplate[i];
+        result.imag += samples[i].imag * cosTemplate[i] - samples[i].real * sinTemplate[i];
+    }
+
+    return result;
+}
+
 void DFT_Calculate(const double* const samples, complex_t* const spectrum, uint16_t count)
 {
     assert(samples != NULL);
@@ -71,6 +87,23 @@ void DFT_Calculate(const double* const samples, complex_t* const spectrum, uint1
 
         spectrum[i].imag = -CompareTemplate(samples, sinTemplate, count);
         spectrum[i].real = CompareTemplate(samples, cosTemplate, count);
+    }
+}
+
+void DFT_CalculateComplex(const complex_t* const samples, complex_t* const spectrum, uint16_t count)
+{
+    double sinTemplate[count];
+    double cosTemplate[count];
+    complex_t sample;
+
+    for (size_t i = 0; i < count; i++)
+    {
+        GenerateSinTemplate(i, sinTemplate, count);
+        GenerateCosTemplate(i, cosTemplate, count);
+
+        sample = CompareTemplateComplex(samples, cosTemplate, sinTemplate, count);
+        spectrum[i].real = sample.real;
+        spectrum[i].imag = sample.imag;
     }
 }
 

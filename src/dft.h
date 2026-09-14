@@ -13,6 +13,7 @@
 * [out] - none
 * */
 void DFT_Calculate(const double* const samples, complex_t* const spectrum, uint16_t count);
+void DFT_CalculateComplex(const complex_t* const samples, complex_t* const spectrum, uint16_t count);
 
 /* Brief: Generate DFT bins
 * [in] - bins - pointer to bin storage

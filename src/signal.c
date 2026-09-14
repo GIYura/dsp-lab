@@ -47,11 +47,36 @@ void SignalGenerateSamples(const harmonic_t* const harmonic, uint8_t harmCount, 
         for (uint8_t j = 0; j < harmCount; j++)
         {
             angle = 2.0 * PI * harmonic[j].freqHz * sec + DEGREE_TO_RAD(harmonic[j].phaseDeg);
-            component = harmonic[j].amp * sin(angle);
+            //component = harmonic[j].amp * sin(angle);
+            component = harmonic[j].amp * cos(angle);
             sample += component;
         }
 
         samples[i] = sample;
+    }
+}
+
+void SignalGenerateIQSamples(const harmonic_t* harmonics, uint8_t harmCount, complex_t* const samples, uint16_t sampleCount)
+{
+    double sec;
+    double angle;
+
+    for (size_t i = 0; i < sampleCount; i++)
+    {
+        sec = (double)i / FREQ_SAMPLE_HZ;
+
+        samples[i].real = 0.0;
+        samples[i].imag = 0.0;
+
+#if 1
+        for (size_t j = 0; j < harmCount; j++)
+        {
+            angle = 2.0 * PI * harmonics[j].freqHz * sec + DEGREE_TO_RAD(harmonics[j].phaseDeg);
+
+            samples[i].real += harmonics[j].amp * cos(angle);
+            samples[i].imag += harmonics[j].amp * sin(angle);
+        }
+#endif
     }
 }
 
@@ -71,14 +96,33 @@ void SignalPrintSamples(const double* const samples, uint16_t count)
 
     double time_ms = 0.0;
 
-    printf("Samples:\n");
-    printf(" n | time, ms | x[n]\n");
-    printf("---+----------+-----------\n");
+    printf(" Real Samples:\n");
+    printf(" n | time, ms | x[n]      |\n");
+    printf("---+----------+-----------|\n");
 
     for (uint16_t i = 0; i < count; i++)
     {
         time_ms = 1000.0 * (double)i / FREQ_SAMPLE_HZ;
-        printf("%2u | %8.3f | %9.4f\n", i, time_ms, samples[i]);
+        printf("%2u | %8.3f | %9.4f |\n", i, time_ms, samples[i]);
+    }
+
+    printf("\n");
+}
+
+void SignalPrintIQSamples(const complex_t* const samples, uint16_t count)
+{
+    assert(samples != NULL);
+
+    double time_ms = 0.0;
+
+    printf(" IQ Samples:\n");
+    printf(" n | time, ms | x[n] Re   | x[n] Im   |\n");
+    printf("---+----------+-----------|-----------|\n");
+
+    for (uint16_t i = 0; i < count; i++)
+    {
+        time_ms = 1000.0 * (double)i / FREQ_SAMPLE_HZ;
+        printf("%2u | %8.3f | %9.4f | %9.4f |\n", i, time_ms, samples[i].real, samples[i].imag);
     }
 
     printf("\n");
