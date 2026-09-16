@@ -14,10 +14,11 @@ FIR := $(OUTDIR)/fir_demo
 IIR := $(OUTDIR)/iir_demo
 IQ := $(OUTDIR)/iq_demo
 SHIFT := $(OUTDIR)/shift_demo
+HILBERT := $(OUTDIR)/hilbert_demo
 
-.PHONY: all dft fft window convolution fir iir iq shift clean help
+.PHONY: all dft fft window convolution fir iir iq shift hilbert clean help
 
-all: dft fft window convolution fir iir iq shift
+all: dft fft window convolution fir iir iq shift hilbert
 
 dft: $(DFT)
 
@@ -34,6 +35,8 @@ iir: $(IIR)
 iq: $(IQ)
 
 shift: $(SHIFT)
+
+hilbert: $(HILBERT)
 
 $(OUTDIR):
 	@mkdir -p $@
@@ -69,6 +72,10 @@ $(IQ): labs/iq/main.c src/signal.c src/config.c src/dft.c src/output.c | $(OUTDI
 $(SHIFT): labs/shift/main.c src/signal.c src/config.c src/dft.c src/output.c src/shift.c src/complex.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo 'SHIFT Done!'
+	
+$(HILBERT): labs/hilbert/main.c src/signal.c src/config.c src/fir.c src/output.c src/convolution.c src/dft.c | $(OUTDIR)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
+	@echo 'HILBERT Done!'
 
 clean:
 	@$(RM) $(OUTDIR)
@@ -84,6 +91,7 @@ help:
 	@echo "  make iir"
 	@echo "  make iq"
 	@echo "  make shift"
+	@echo "  make hilbert"
 	@echo ""
 	@echo "Build all labs:"
 	@echo "  make all"

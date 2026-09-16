@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <math.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "signal.h"
 #include "config.h"
@@ -77,6 +78,37 @@ void SignalGenerateIQSamples(const harmonic_t* harmonics, uint8_t harmCount, com
             samples[i].imag += harmonics[j].amp * sin(angle);
         }
 #endif
+    }
+}
+
+void SignalSamplesDelay(const double* const src, uint32_t srcSize, double* const dst, uint32_t dstSize, uint32_t delay)
+{
+    assert(src != NULL);
+    assert(dst != NULL);
+    assert(dstSize >= srcSize + delay);
+
+    memset(dst, 0, sizeof(double) * dstSize);
+
+    for (uint32_t i = 0; i < srcSize; i++)
+    {
+        dst[i + delay] = src[i];
+    }
+}
+
+void SignalCreateIQSamples(const double* const samplesDelayed, const double* const samplesConv, complex_t* const iq, uint32_t size, uint32_t delay)
+{
+    assert(samplesDelayed != NULL);
+    assert(samplesConv != NULL);
+    assert(iq != NULL);
+
+    uint32_t k = 0;
+
+    for (uint32_t i = 0; i < size; i++)
+    {
+        k = i + delay;
+
+        iq[i].real = samplesDelayed[k];
+        iq[i].imag = samplesConv[k];
     }
 }
 

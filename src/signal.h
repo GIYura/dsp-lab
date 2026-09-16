@@ -33,6 +33,10 @@ void SignalGenerateSamples(const harmonic_t* const harmonic, uint8_t harmCount, 
 
 void SignalGenerateIQSamples(const harmonic_t* harmonics, uint8_t harmCount, complex_t* const samples, uint16_t sampleCount);
 
+void SignalSamplesDelay(const double* const src, uint32_t srcSize, double* const dst, uint32_t dstSize, uint32_t delay);
+
+void SignalCreateIQSamples(const double* const samplesDelayed, const double* const samplesConv, complex_t* const iq, uint32_t size, uint32_t delay);
+
 /* Brief: Append zeros to samples
 * [in] - samples - pointer to samples storage
 * [in] - sampleCount - samples counter

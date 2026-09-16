@@ -21,4 +21,6 @@ void FIR_LowPassGenerate(double* coefficients, uint32_t tapCount, double sampleR
 * */
 void FIR_Normalize(const double* const src, double* const dst, uint32_t size);
 
+void FIR_HilbertGenerate(double* coefficients, uint32_t tapCount);
+
 #endif /* FIR_H */

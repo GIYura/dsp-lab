@@ -54,3 +54,29 @@ void FIR_Normalize(const double* const src, double* const dst, uint32_t size)
         dst[i] = src[i] / sum;
     }
 }
+
+void FIR_HilbertGenerate(double* coefficients, uint32_t tapCount)
+{
+    assert(coefficients != NULL);
+
+    double center;
+    double value;
+    double m;
+
+    center = (double)(tapCount - 1) / 2.0;
+
+    for (uint32_t i = 0; i < tapCount; i++)
+    {
+        m = (double)i - center;
+        if (i % 2 == 0)
+        {
+            value = 2 / (m * PI);
+            coefficients[i] = value;
+        }
+        else
+        {
+            coefficients[i] = 0.0;
+        }
+    }
+}
+
