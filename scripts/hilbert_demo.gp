@@ -21,7 +21,7 @@ file_exists(fname) = \
 if (file_exists(file_cos)) {
     set term qt 0 title "Cos signal"
     set grid
-    set xlabel "Time, ms"
+    set xlabel "Sample"
     set ylabel "Amplitude"
 
     plot file_cos using 0:1 with lines lw 3 notitle
@@ -36,7 +36,7 @@ if (file_exists(file_cos)) {
 if (file_exists(file_sin)) {
     set term qt 1 title "Sin signal"
     set grid
-    set xlabel "Time, ms"
+    set xlabel "Sample"
     set ylabel "Amplitude"
 
     plot file_sin using 0:1 with lines lw 3 notitle
@@ -51,7 +51,7 @@ if (file_exists(file_sin)) {
 if (file_exists(file_cos_delay)) {
     set term qt 2 title "Cos delayed signal"
     set grid
-    set xlabel "Time, ms"
+    set xlabel "Sample"
     set ylabel "Amplitude"
 
     plot file_cos_delay using 0:1 with lines lw 3 notitle
@@ -66,7 +66,7 @@ if (file_exists(file_cos_delay)) {
 if (file_exists(file_cos_delay) && file_exists(file_sin)) {
     set term qt 3 title "Cos delayed + Hilbert signal"
     set grid
-    set xlabel "Time, ms"
+    set xlabel "Sample"
     set ylabel "Amplitude"
 
     plot file_cos_delay using 0:1 with lines title "I - delayed cos", file_sin using 0:1 with lines title "Q - Hilbert"
@@ -89,6 +89,5 @@ if (file_exists(file_spectrum)) {
     print sprintf("WARNING: '%s' not found.", file_spectrum)
     exit -1
 }
-
 
 pause mouse close

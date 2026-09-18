@@ -107,16 +107,21 @@ void DFT_CalculateComplex(const complex_t* const samples, complex_t* const spect
     }
 }
 
-void DFT_GenerateBins(bin_t* const bins, uint16_t count)
+void DFT_GenerateBins(bin_t *const bins, uint16_t count, double sampleRateHz)
 {
     assert(bins != NULL);
+    assert(count > 0U);
+    assert(sampleRateHz > 0.0);
 
-    double binStep = FREQ_SAMPLE_HZ / (double)count;
+    double binStep = sampleRateHz / (double)count;
+    int32_t half = (int32_t)count / 2;
 
     for (uint16_t i = 0; i < count; i++)
     {
+        int32_t shiftedIndex = (int32_t)i - half;
+
         bins[i].number = i;
-        bins[i].freqHz = (double)i * binStep;
+        bins[i].freqHz = (double)shiftedIndex * binStep;
     }
 }
 
@@ -147,37 +152,17 @@ void DFT_Print(const bin_t* const bins, const complex_t* const spectrum, uint16_
     }
 }
 
-void DFT_GenerateShiftedBins(bin_t *const bins, uint16_t count)
-{
-    assert(bins != NULL);
-    assert(count > 0);
-
-    int32_t shiftedIndex;
-    double binStep = FREQ_SAMPLE_HZ / (double)count;
-    int32_t half = (int32_t)count / 2;
-
-    for (uint16_t i = 0; i < count; i++)
-    {
-        shiftedIndex = (int32_t)i - half;
-
-        bins[i].number = i;
-        bins[i].freqHz = (double)shiftedIndex * binStep;
-    }
-}
-
 void DFT_ShiftSpectrum(const complex_t *const input, complex_t *const output, uint16_t count)
 {
     assert(input != NULL);
     assert(output != NULL);
     assert(count > 0);
-    assert((count % 2U) == 0U);
-
-    uint16_t half = count / 2U;
+    uint16_t shift = (count + 1U) / 2U;
     uint16_t src;
 
     for (uint16_t i = 0; i < count; i++)
     {
-        src = (uint16_t)((i + half) % count);
+        src = (uint16_t)((i + shift) % count);
         output[i] = input[src];
     }
 }

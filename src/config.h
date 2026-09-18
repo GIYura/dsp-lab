@@ -8,17 +8,9 @@
 #define DEGREE_TO_RAD(x)    (((x) * PI) / 180.0)
 #define RAD_TO_DEGREE(x)    (((x) * 180) / PI)
 
-#define FREQ_SAMPLE_HZ      (8000.0)    //(16000.0) - FIR
 #define HARMONIC_COUNT      (3U)
 #define SAMPLE_COUNT        (64U)
-#define ZERO_PADDING_COUNT  (0U)
 
-#define DFT_SIZE            (SAMPLE_COUNT + ZERO_PADDING_COUNT)
-#define FFT_SIZE            (SAMPLE_COUNT + ZERO_PADDING_COUNT)
-
-#define FIR_TAP_COUNT       (31U)
-#define CONV_SIZE           (SAMPLE_COUNT + FIR_TAP_COUNT - 1U)
-#define LPF_CUT_OFF_HZ      (4000.0)
 
 /* DFT and FFT bin description */
 typedef struct

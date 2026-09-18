@@ -22,16 +22,16 @@ typedef struct
 * */
 bool SignalHarmonicAdd(harmonic_t* harmonic, double freqHz, double amp, double phaseDeg);
 
-/* Brief: Generate descrete samples
+/* Brief: Generate discrete samples
 * [in] - harmonic - pointer to harmonic_t struct
 * [in] - harmCount - harmonic counter
 * [in] - samples - pointer to samples storage
 * [in] - sampleCount - samples counter
 * [out] - none
 * */
-void SignalGenerateSamples(const harmonic_t* const harmonic, uint8_t harmCount, double* samples, uint16_t sampleCount);
+void SignalGenerateSamples(const harmonic_t* const harmonic, uint8_t harmCount, double* samples, uint16_t sampleCount, double sampleFreqHz);
 
-void SignalGenerateIQSamples(const harmonic_t* harmonics, uint8_t harmCount, complex_t* const samples, uint16_t sampleCount);
+void SignalGenerateIQSamples(const harmonic_t* harmonics, uint8_t harmCount, complex_t* const samples, uint16_t sampleCount, double sampleFreqHz);
 
 void SignalSamplesDelay(const double* const src, uint32_t srcSize, double* const dst, uint32_t dstSize, uint32_t delay);
 
@@ -50,9 +50,9 @@ void SignalZeroPadding(double* samples, uint16_t sampleCount, uint16_t zeroCount
 * [in] - count - samples counter
 * [out] - none
 * */
-void SignalPrintSamples(const double* const samples, uint16_t count);
+void SignalPrintSamples(const double* const samples, uint16_t count, double sampleFreqHz);
 
-void SignalPrintIQSamples(const complex_t* const samples, uint16_t count);
+void SignalPrintIQSamples(const complex_t* const samples, uint16_t count, double sampleFreqHz);
 
 /* Brief: Print signal config
 * [in] - harmonic - pointer to harmonic_t struct

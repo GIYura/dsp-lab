@@ -1,13 +1,18 @@
-#include <assert.h>
-#include <stdio.h>
-#include <stddef.h>
+/*
+ * Spectrum shift demo
+ * */
 
 #include "signal.h"
 #include "config.h"
 #include "complex.h"
-#include "output.h"
+#include "save.h"
 #include "dft.h"
 #include "shift.h"
+
+/* Demo config */
+#define FREQ_SAMPLE_HZ      (8000.0)
+#define ZERO_PADDING_COUNT  (0U)
+#define DFT_SIZE            (SAMPLE_COUNT + ZERO_PADDING_COUNT)
 
 int main(void)
 {
@@ -25,12 +30,12 @@ int main(void)
     SignalHarmonicAdd(signal, (3000.0), 0.0, 0.0);
     SignalHarmonicAdd(signal, (5000.0), 0.0, 0.0);
 
-    SignalGenerateSamples(signal, HARMONIC_COUNT, samples, SAMPLE_COUNT);
+    SignalGenerateSamples(signal, HARMONIC_COUNT, samples, SAMPLE_COUNT, FREQ_SAMPLE_HZ);
 
-    DFT_GenerateShiftedBins(bins, DFT_SIZE);
+    DFT_GenerateBins(bins, DFT_SIZE, FREQ_SAMPLE_HZ);
     DFT_Calculate(samples, spectrum, DFT_SIZE);
     DFT_ShiftSpectrum(spectrum, shiftedSpectrum, DFT_SIZE);
-    DFT_Print(bins, spectrum, DFT_SIZE);
+    DFT_Print(bins, shiftedSpectrum, DFT_SIZE);
     SaveSpectrumDat("spectrum.dat", bins, shiftedSpectrum, DFT_CalculateRawMagnitude, DFT_SIZE);
 
     /* Create shift */
@@ -38,12 +43,12 @@ int main(void)
     SignalHarmonicAdd(shift, (3000.0), 0.0, 0.0);
     SignalHarmonicAdd(shift, (5000.0), 0.0, 0.0);
 
-    SignalGenerateIQSamples(shift, HARMONIC_COUNT, exp, SAMPLE_COUNT);
+    SignalGenerateIQSamples(shift, HARMONIC_COUNT, exp, SAMPLE_COUNT, FREQ_SAMPLE_HZ);
 
     /* Apply shift to input signal */
     SignalShift(samples, exp, result, SAMPLE_COUNT);
 
-    DFT_GenerateShiftedBins(bins, DFT_SIZE);
+    DFT_GenerateBins(bins, DFT_SIZE, FREQ_SAMPLE_HZ);
     DFT_CalculateComplex(result, spectrum, DFT_SIZE);
     DFT_ShiftSpectrum(spectrum, shiftedSpectrum, DFT_SIZE);
     DFT_Print(bins, shiftedSpectrum, DFT_SIZE);

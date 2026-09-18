@@ -30,7 +30,7 @@ bool SignalHarmonicAdd(harmonic_t* const harmonic, double freqHz, double amp, do
         return result;
 }
 
-void SignalGenerateSamples(const harmonic_t* const harmonic, uint8_t harmCount, double* samples, uint16_t sampleCount)
+void SignalGenerateSamples(const harmonic_t* const harmonic, uint8_t harmCount, double* samples, uint16_t sampleCount, double sampleFreqHz)
 {
     assert(harmonic != NULL);
     assert(samples != NULL);
@@ -42,7 +42,7 @@ void SignalGenerateSamples(const harmonic_t* const harmonic, uint8_t harmCount, 
 
     for (uint16_t i = 0; i < sampleCount; i++)
     {
-        sec = (double)i / FREQ_SAMPLE_HZ;
+        sec = (double)i / sampleFreqHz/*FREQ_SAMPLE_HZ*/;
         sample = 0.0;
 
         for (uint8_t j = 0; j < harmCount; j++)
@@ -57,14 +57,14 @@ void SignalGenerateSamples(const harmonic_t* const harmonic, uint8_t harmCount, 
     }
 }
 
-void SignalGenerateIQSamples(const harmonic_t* harmonics, uint8_t harmCount, complex_t* const samples, uint16_t sampleCount)
+void SignalGenerateIQSamples(const harmonic_t* harmonics, uint8_t harmCount, complex_t* const samples, uint16_t sampleCount, double sampleFreqHz)
 {
     double sec;
     double angle;
 
     for (size_t i = 0; i < sampleCount; i++)
     {
-        sec = (double)i / FREQ_SAMPLE_HZ;
+        sec = (double)i / /*FREQ_SAMPLE_HZ*/sampleFreqHz;
 
         samples[i].real = 0.0;
         samples[i].imag = 0.0;
@@ -122,7 +122,7 @@ void SignalZeroPadding(double* samples, uint16_t sampleCount, uint16_t zeroCount
     }
 }
 
-void SignalPrintSamples(const double* const samples, uint16_t count)
+void SignalPrintSamples(const double* const samples, uint16_t count, double sampleFreqHz)
 {
     assert(samples != NULL);
 
@@ -134,14 +134,14 @@ void SignalPrintSamples(const double* const samples, uint16_t count)
 
     for (uint16_t i = 0; i < count; i++)
     {
-        time_ms = 1000.0 * (double)i / FREQ_SAMPLE_HZ;
+        time_ms = 1000.0 * (double)i / /*FREQ_SAMPLE_HZ*/sampleFreqHz;
         printf("%2u | %8.3f | %9.4f |\n", i, time_ms, samples[i]);
     }
 
     printf("\n");
 }
 
-void SignalPrintIQSamples(const complex_t* const samples, uint16_t count)
+void SignalPrintIQSamples(const complex_t* const samples, uint16_t count, double sampleFreqHz)
 {
     assert(samples != NULL);
 
@@ -153,7 +153,7 @@ void SignalPrintIQSamples(const complex_t* const samples, uint16_t count)
 
     for (uint16_t i = 0; i < count; i++)
     {
-        time_ms = 1000.0 * (double)i / FREQ_SAMPLE_HZ;
+        time_ms = 1000.0 * (double)i / /*FREQ_SAMPLE_HZ*/sampleFreqHz;
         printf("%2u | %8.3f | %9.4f | %9.4f |\n", i, time_ms, samples[i].real, samples[i].imag);
     }
 

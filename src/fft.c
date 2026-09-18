@@ -88,7 +88,7 @@ static void CalculateStage(complex_t* const spectrum, uint16_t count, uint8_t st
         {
             /* upperIndex = groupStart + k */
             upperIndex = groupStart + k;
-            /* upperIndex = groupStart + k + M/2 */
+            /* lowerIndex = groupStart + k + M/2 */
             lowerIndex = upperIndex + M_half;
 
             upper = spectrum[upperIndex];
@@ -122,17 +122,36 @@ void FFT_Calculate(const double* const samples, complex_t* const spectrum, uint1
     }
 }
 
-void FFT_GenerateBins(bin_t* const bins, uint16_t count)
+void FFT_GenerateBins(bin_t *const bins, uint16_t count, double sampleRateHz)
 {
     assert(bins != NULL);
     assert(count > 0U);
+    assert(sampleRateHz > 0.0);
 
-    double binStep = FREQ_SAMPLE_HZ / (double)count;
+    double binStep = sampleRateHz / (double)count;
+    int32_t half = (int32_t)count / 2;
 
     for (uint16_t i = 0U; i < count; i++)
     {
+        int32_t shiftedIndex = (int32_t)i - half;
+
         bins[i].number = i;
-        bins[i].freqHz = (double)i * binStep;
+        bins[i].freqHz = (double)shiftedIndex * binStep;
+    }
+}
+
+void FFT_ShiftSpectrum(const complex_t *const input, complex_t *const output, uint16_t count)
+{
+    assert(input != NULL);
+    assert(output != NULL);
+    assert(count > 0U);
+
+    uint16_t shift = (count + 1U) / 2U;
+
+    for (uint16_t i = 0U; i < count; i++)
+    {
+        uint16_t src = (uint16_t)((i + shift) % count);
+        output[i] = input[src];
     }
 }
 

@@ -2,7 +2,7 @@
 #include <stddef.h>
 #include <stdio.h>
 
-#include "output.h"
+#include "save.h"
 
 void SaveSpectrumDat(const char* const fileName, const bin_t* bins, const complex_t* spectrum, fp_t cb, uint16_t count)
 {
@@ -21,7 +21,7 @@ void SaveSpectrumDat(const char* const fileName, const bin_t* bins, const comple
 
     for (uint16_t i = 0; i < count; i++)
     {
-        fprintf(fp, "%u %.6f %.12f\n", bins[i].number, (bins[i].freqHz * 0.001), callback(&spectrum[i]));
+        fprintf(fp, "%u %.6f %.12f\n", bins[i].number, bins[i].freqHz, callback(&spectrum[i]));
     }
 
     fclose(fp);

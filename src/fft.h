@@ -18,12 +18,14 @@ void FFT_Calculate(const double* const samples, complex_t* const spectrum, uint1
 * [in] - count - bin counter
 * [out] - none
 * */
-void FFT_GenerateBins(bin_t* const bins, uint16_t count);
+void FFT_GenerateBins(bin_t *const bins, uint16_t count, double sampleRateHz);
 
 /* Brief: Calculate FFT raw (unnormalized) magnitude
 * [in] - spectrum - pointer to spectrum storage
 * [out] - value
 * */
+void FFT_ShiftSpectrum(const complex_t *const input, complex_t *const output, uint16_t count);
+
 double FFT_CalculateRawMagnitude(const complex_t* const spectrum);
 
 /* Brief: Print FFT

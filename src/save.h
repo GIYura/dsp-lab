@@ -1,5 +1,5 @@
-#ifndef OUTPUT_H
-#define OUTPUT_H
+#ifndef SAVE_H
+#define SAVE_H
 
 #include <stdint.h>
 
@@ -28,4 +28,4 @@ void SaveDat(const char* const fileName, const double* const in, uint32_t count)
 void SaveIQDat(const char* const fileName, const complex_t* const in, uint32_t count);
 void SaveTimeDat(const char *fileName, const double *in, uint32_t count, double sampleRateHz);
 
-#endif /* OUTPUT_H */
+#endif /* SAVE_H */

@@ -20,7 +20,7 @@ file_exists(fname) = \
 if (file_exists(file_input)) {
     set term qt 0 title "Input signal"
     set grid
-    set xlabel "Time, ms"
+    set xlabel "Sample"
     set ylabel "Amplitude"
 
     plot file_input using 0:1 with lines lw 3 notitle

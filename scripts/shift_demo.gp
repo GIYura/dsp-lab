@@ -22,14 +22,10 @@ if (file_exists(file_spectrum_shifted)) {
     set xlabel "Frequency, Hz"
     set ylabel "Magnitude"
 
-    Fs = 8.0      # kHz
-    Nyquist = Fs / 2.0
+    set xrange [-4000:4000]
+    set xtics 1000
 
-    set xrange [-Nyquist:Nyquist]
-    set xtics 1
-    set xlabel "Frequency, kHz"
-
-    plot file_spectrum_shifted using (($2 >= Nyquist) ? ($2 - Fs) : $2):3 with lines lw 3 notitle
+    plot file_spectrum_shifted using 2:3 with lines lw 3 notitle
 } else {
     print sprintf("WARNING: '%s' not found.", file_spectrum_shifted)
     exit -1
@@ -44,14 +40,10 @@ if (file_exists(file_spectrum_orig)) {
     set xlabel "Frequency, Hz"
     set ylabel "Magnitude"
 
-    Fs = 8.0      # kHz
-    Nyquist = Fs / 2.0
+    set xrange [-4000:4000]
+    set xtics 1000
 
-    set xrange [-Nyquist:Nyquist]
-    set xtics 1
-    set xlabel "Frequency, kHz"
-
-    plot file_spectrum_orig using (($2 >= Nyquist) ? ($2 - Fs) : $2):3 with lines lw 3 notitle
+    plot file_spectrum_orig using 2:3 with lines lw 3 notitle
 } else {
     print sprintf("WARNING: '%s' not found.", file_spectrum_orig)
     exit -1

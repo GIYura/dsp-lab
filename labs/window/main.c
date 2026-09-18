@@ -1,7 +1,16 @@
+/*
+ * Window demo
+ * */
+
 #include "config.h"
-#include "output.h"
+#include "save.h"
 #include "signal.h"
 #include "window.h"
+
+/* Demo config */
+#define FREQ_SAMPLE_HZ      (8000.0)
+#define ZERO_PADDING_COUNT  (0U)
+#define DFT_SIZE            (SAMPLE_COUNT + ZERO_PADDING_COUNT)
 
 int main(void)
 {
@@ -14,7 +23,7 @@ int main(void)
     SignalHarmonicAdd(signal, 2000.0, 0.0, 0.0);
     SignalHarmonicAdd(signal, 3000.0, 0.0, 0.0);
 
-    SignalGenerateSamples(signal, HARMONIC_COUNT, samples, SAMPLE_COUNT);
+    SignalGenerateSamples(signal, HARMONIC_COUNT, samples, SAMPLE_COUNT, FREQ_SAMPLE_HZ);
     WindowGenerate(WINDOW_HANN, window, SAMPLE_COUNT);
     WindowApply(samples, window, weighted, SAMPLE_COUNT);
 

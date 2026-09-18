@@ -1,10 +1,15 @@
+/*
+ * Convolution demo
+ * */
+
 #include "config.h"
 #include "convolution.h"
-#include "output.h"
+#include "save.h"
 #include "signal.h"
 
-#define IMPULSE_RESPONSE_SIZE (3U)
-#define DEMO_CONV_SIZE (SAMPLE_COUNT + IMPULSE_RESPONSE_SIZE - 1U)
+#define FREQ_SAMPLE_HZ          (8000.0)
+#define IMPULSE_RESPONSE_SIZE   (3U)
+#define DEMO_CONV_SIZE          (SAMPLE_COUNT + IMPULSE_RESPONSE_SIZE - 1U)
 
 int main(void)
 {
@@ -16,7 +21,7 @@ int main(void)
     SignalHarmonicAdd(signal, 1000.0, 1.0, 0.0);
     SignalHarmonicAdd(signal, 2000.0, 0.5, 0.0);
 
-    SignalGenerateSamples(signal, HARMONIC_COUNT, samples, SAMPLE_COUNT);
+    SignalGenerateSamples(signal, HARMONIC_COUNT, samples, SAMPLE_COUNT, FREQ_SAMPLE_HZ);
     Convolution(samples, result, impulse_response, SAMPLE_COUNT, IMPULSE_RESPONSE_SIZE);
 
     SaveDat("input.dat", samples, SAMPLE_COUNT);

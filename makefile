@@ -15,10 +15,11 @@ IIR := $(OUTDIR)/iir_demo
 IQ := $(OUTDIR)/iq_demo
 SHIFT := $(OUTDIR)/shift_demo
 HILBERT := $(OUTDIR)/hilbert_demo
+DECIMATION := $(OUTDIR)/decimation_demo
 
-.PHONY: all dft fft window convolution fir iir iq shift hilbert clean help
+.PHONY: all dft fft window convolution fir iir iq shift hilbert decimation clean help
 
-all: dft fft window convolution fir iir iq shift hilbert
+all: dft fft window convolution fir iir iq shift hilbert decimation
 
 dft: $(DFT)
 
@@ -38,44 +39,50 @@ shift: $(SHIFT)
 
 hilbert: $(HILBERT)
 
+decimation: $(DECIMATION)
+
 $(OUTDIR):
 	@mkdir -p $@
 
-$(DFT): labs/dft/main.c src/dft.c src/config.c src/signal.c src/output.c | $(OUTDIR)
+$(DFT): labs/dft/main.c src/dft.c src/config.c src/signal.c src/save.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo 'DFT Done!'
 
-$(FFT): labs/fft/main.c src/fft.c src/config.c src/signal.c src/output.c src/complex.c | $(OUTDIR)
+$(FFT): labs/fft/main.c src/fft.c src/config.c src/signal.c src/save.c src/complex.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo 'FFT Done!'
 
-$(WINDOW): labs/window/main.c src/config.c src/window.c src/signal.c src/output.c | $(OUTDIR)
+$(WINDOW): labs/window/main.c src/config.c src/window.c src/signal.c src/save.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo 'WINDOW Done!'
 
-$(CONV): labs/convolution/main.c src/config.c src/convolution.c src/signal.c src/output.c | $(OUTDIR)
+$(CONV): labs/convolution/main.c src/config.c src/convolution.c src/signal.c src/save.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo 'CONV Done!'
 
-$(FIR): labs/fir/main.c src/fir.c src/signal.c src/dft.c src/convolution.c src/config.c src/window.c src/output.c | $(OUTDIR)
+$(FIR): labs/fir/main.c src/fir.c src/signal.c src/dft.c src/convolution.c src/config.c src/window.c src/save.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo 'FIR Done!'
 
-$(IIR): labs/iir/main.c src/signal.c src/config.c src/iir.c src/dft.c src/output.c | $(OUTDIR)
+$(IIR): labs/iir/main.c src/signal.c src/config.c src/iir.c src/dft.c src/save.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo 'IIR Done!'
-	
-$(IQ): labs/iq/main.c src/signal.c src/config.c src/dft.c src/output.c | $(OUTDIR)
+
+$(IQ): labs/iq/main.c src/signal.c src/config.c src/dft.c src/save.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo 'IQ Done!'
-	
-$(SHIFT): labs/shift/main.c src/signal.c src/config.c src/dft.c src/output.c src/shift.c src/complex.c | $(OUTDIR)
+
+$(SHIFT): labs/shift/main.c src/signal.c src/config.c src/dft.c src/save.c src/shift.c src/complex.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo 'SHIFT Done!'
-	
-$(HILBERT): labs/hilbert/main.c src/signal.c src/config.c src/fir.c src/output.c src/convolution.c src/dft.c | $(OUTDIR)
+
+$(HILBERT): labs/hilbert/main.c src/signal.c src/config.c src/fir.c src/save.c src/convolution.c src/dft.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo 'HILBERT Done!'
+
+$(DECIMATION): labs/decimation/main.c src/signal.c src/config.c src/save.c src/decimation.c src/dft.c | $(OUTDIR)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
+	@echo 'DECIMATION Done!'
 
 clean:
 	@$(RM) $(OUTDIR)
@@ -92,10 +99,10 @@ help:
 	@echo "  make iq"
 	@echo "  make shift"
 	@echo "  make hilbert"
+	@echo "  make decimation"
 	@echo ""
 	@echo "Build all labs:"
 	@echo "  make all"
 	@echo ""
 	@echo "Clean generated binaries and data:"
 	@echo "  make clean"
-	
