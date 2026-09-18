@@ -1,9 +1,9 @@
 # ============================================================
-# Decimation demo
+# Plot interpolation demo
 # ============================================================
 
 file_orig = "output/orig.dat"
-file_decimated = "output/decimated.dat"
+file_interpolated = "output/interpolated.dat"
 file_spectrum_1 = "output/dft_spectrum_1.dat"
 file_spectrum_2 = "output/dft_spectrum_2.dat"
 
@@ -16,7 +16,7 @@ file_exists(fname) = \
     (system(sprintf("test -f '%s'", fname)), GPVAL_SYSTEM_ERRNO == 0)
 
 #
-# Before decimation signal
+# Before interpolation signal
 #
 if (file_exists(file_orig)) {
     set term qt 0 title "Orig signal"
@@ -31,17 +31,17 @@ if (file_exists(file_orig)) {
 }
 
 #
-# After decimation signal
+# After interpolation signal
 #
-if (file_exists(file_decimated)) {
-    set term qt 1 title "Decimated signal"
+if (file_exists(file_interpolated)) {
+    set term qt 1 title "Interpolated signal"
     set grid
     set xlabel "Time, ms"
     set ylabel "Amplitude"
 
-    plot file_decimated using ($1*1000):2 with linespoints
+    plot file_interpolated using ($1*1000):2 with linespoints
 } else {
-    print sprintf("WARNING: '%s' not found.", file_decimated)
+    print sprintf("WARNING: '%s' not found.", file_interpolated)
     exit -1
 }
 

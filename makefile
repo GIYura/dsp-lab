@@ -16,10 +16,11 @@ IQ := $(OUTDIR)/iq_demo
 SHIFT := $(OUTDIR)/shift_demo
 HILBERT := $(OUTDIR)/hilbert_demo
 DECIMATION := $(OUTDIR)/decimation_demo
+INTERPOLATION := $(OUTDIR)/interpolation_demo
 
-.PHONY: all dft fft window convolution fir iir iq shift hilbert decimation clean help
+.PHONY: all dft fft window convolution fir iir iq shift hilbert decimation interpolation clean help
 
-all: dft fft window convolution fir iir iq shift hilbert decimation
+all: dft fft window convolution fir iir iq shift hilbert decimation interpolation
 
 dft: $(DFT)
 
@@ -40,6 +41,8 @@ shift: $(SHIFT)
 hilbert: $(HILBERT)
 
 decimation: $(DECIMATION)
+
+interpolation: $(INTERPOLATION)
 
 $(OUTDIR):
 	@mkdir -p $@
@@ -83,6 +86,10 @@ $(HILBERT): labs/hilbert/main.c src/signal.c src/config.c src/fir.c src/save.c s
 $(DECIMATION): labs/decimation/main.c src/signal.c src/config.c src/save.c src/decimation.c src/dft.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo 'DECIMATION Done!'
+	
+$(INTERPOLATION): labs/interpolation/main.c src/signal.c src/config.c src/save.c src/interpolation.c src/dft.c | $(OUTDIR)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
+	@echo 'INTERPOLATION Done!'
 
 clean:
 	@$(RM) $(OUTDIR)
@@ -100,6 +107,7 @@ help:
 	@echo "  make shift"
 	@echo "  make hilbert"
 	@echo "  make decimation"
+	@echo "  make interpolation"
 	@echo ""
 	@echo "Build all labs:"
 	@echo "  make all"

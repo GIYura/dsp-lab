@@ -18,6 +18,7 @@
 
 int main(void)
 {
+    /* Local variables */
     harmonic_t signal[HARMONIC_COUNT] = {0};
     double samples[SAMPLE_COUNT] = {0};
     double decimated[DECIMATED_COUNT] = {0};
@@ -28,10 +29,12 @@ int main(void)
     complex_t spectrumDecimated[DECIMATED_COUNT];
     complex_t shiftedSpectrumDecimated[DECIMATED_COUNT];
 
+    /* Add harmonics into signal */
     SignalHarmonicAdd(signal, 1000.0, 1.0, 0.0);
     SignalHarmonicAdd(signal, 2000.0, 0.0, 0.0);
     SignalHarmonicAdd(signal, 3000.0, 1.0, 0.0);
 
+    /* Generate samples */
     SignalGenerateSamples(signal, HARMONIC_COUNT, samples, SAMPLE_COUNT, FREQ_SAMPLE_HZ);
 
     SaveTimeDat("orig.dat", samples, SAMPLE_COUNT, FREQ_SAMPLE_HZ);
@@ -42,6 +45,7 @@ int main(void)
 
     SaveSpectrumDat("dft_spectrum_1.dat", bins, shiftedSpectrum, DFT_CalculateRawMagnitude, DFT_SIZE);
 
+    /* Apply decimation */
     Decimate(samples, decimated, SAMPLE_COUNT, DECIMATION_FACTOR);
 
     DFT_GenerateBins(binsDecimated, DECIMATED_COUNT, DECIMATED_SAMPLE_HZ);
