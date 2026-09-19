@@ -36,11 +36,12 @@ void FIR_LowPassGenerate(double *coefficients, uint32_t tapCount, double sampleR
     }
 }
 
-void FIR_Normalize(const double* const src, double* const dst, uint32_t size)
+void FIR_Normalize(const double* const src, double* const dst, uint32_t size, uint32_t factor)
 {
     assert(src != NULL);
     assert(dst != NULL);
     assert(size > 0U);
+    assert(factor > 0U);
 
     double sum = 0.0;
 
@@ -52,6 +53,11 @@ void FIR_Normalize(const double* const src, double* const dst, uint32_t size)
     for (uint32_t i = 0; i < size; i++)
     {
         dst[i] = src[i] / sum;
+    }
+
+    for (uint32_t i = 0; i < size; i++)
+    {
+        dst[i] *= factor;
     }
 }
 

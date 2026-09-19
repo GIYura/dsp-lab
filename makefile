@@ -87,7 +87,7 @@ $(DECIMATION): labs/decimation/main.c src/signal.c src/config.c src/save.c src/d
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo 'DECIMATION Done!'
 	
-$(INTERPOLATION): labs/interpolation/main.c src/signal.c src/config.c src/save.c src/interpolation.c src/dft.c | $(OUTDIR)
+$(INTERPOLATION): labs/interpolation/main.c src/signal.c src/config.c src/save.c src/interpolation.c src/dft.c src/fir.c src/window.c src/convolution.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo 'INTERPOLATION Done!'
 
