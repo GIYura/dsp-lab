@@ -83,7 +83,7 @@ $(HILBERT): labs/hilbert/main.c src/signal.c src/config.c src/fir.c src/save.c s
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo 'HILBERT Done!'
 
-$(DECIMATION): labs/decimation/main.c src/signal.c src/config.c src/save.c src/decimation.c src/dft.c | $(OUTDIR)
+$(DECIMATION): labs/decimation/main.c src/signal.c src/config.c src/save.c src/decimation.c src/dft.c src/convolution.c src/window.c src/fir.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo 'DECIMATION Done!'
 	

@@ -46,7 +46,7 @@ int main(void)
     FIR_LowPassGenerate(coefficients, FIR_TAP_COUNT, FREQ_SAMPLE_HZ, LPF_CUT_OFF_HZ);
     WindowGenerate(WINDOW_HANN, window, FIR_TAP_COUNT);
     WindowApply(coefficients, window, windowed, FIR_TAP_COUNT);
-    FIR_Normalize(windowed, normalized, FIR_TAP_COUNT);
+    FIR_Normalize(windowed, normalized, FIR_TAP_COUNT, 1);
 
     /* Generate samples and save into file */
     SignalGenerateSamples(signal, HARMONIC_COUNT, samples, SAMPLE_COUNT, FREQ_SAMPLE_HZ);
