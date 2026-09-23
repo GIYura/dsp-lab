@@ -18,10 +18,11 @@ HILBERT := $(OUTDIR)/hilbert_demo
 DECIMATION := $(OUTDIR)/decimation_demo
 INTERPOLATION := $(OUTDIR)/interpolation_demo
 COHERENT_AVG := $(OUTDIR)/coherent_avg_demo
+NON_COHERENT_AVG := $(OUTDIR)/non_coherent_avg_demo
 
-.PHONY: all dft fft window convolution fir iir iq shift hilbert decimation interpolation coherent_avg clean help
+.PHONY: all dft fft window convolution fir iir iq shift hilbert decimation interpolation coherent_avg non_coherent_avg clean help
 
-all: dft fft window convolution fir iir iq shift hilbert decimation interpolation coherent_avg
+all: dft fft window convolution fir iir iq shift hilbert decimation interpolation coherent_avg non_coherent_avg
 
 dft: $(DFT)
 
@@ -46,6 +47,8 @@ decimation: $(DECIMATION)
 interpolation: $(INTERPOLATION)
 
 coherent_avg: $(COHERENT_AVG)
+
+non_coherent_avg: $(NON_COHERENT_AVG)
 
 $(OUTDIR):
 	@mkdir -p $@
@@ -97,6 +100,10 @@ $(INTERPOLATION): labs/interpolation/main.c src/signal.c src/config.c src/save.c
 $(COHERENT_AVG): labs/coherent_avg/main.c src/signal.c src/config.c src/save.c src/noise.c src/stats.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo 'COHERENT_AVG Done!'
+	
+$(NON_COHERENT_AVG): labs/non_coherent_avg/main.c src/signal.c src/config.c src/save.c src/noise.c src/stats.c src/dft.c | $(OUTDIR)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
+	@echo 'NON_COHERENT_AVG Done!'
 
 clean:
 	@$(RM) $(OUTDIR)
@@ -116,6 +123,7 @@ help:
 	@echo "  make decimation"
 	@echo "  make interpolation"
 	@echo "  make coherent_avg"
+	@echo "  make non_coherent_avg"
 	@echo ""
 	@echo "Build all labs:"
 	@echo "  make all"
