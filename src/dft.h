@@ -39,4 +39,6 @@ void DFT_Print(const bin_t* const bins, const complex_t* const spectrum, uint16_
 
 void DFT_ShiftSpectrum(const complex_t *const input, complex_t *const output, uint16_t count);
 
+void DFT_SpectrumNormalize(complex_t* const spectrum, uint32_t count);
+
 #endif /* DFT_H */

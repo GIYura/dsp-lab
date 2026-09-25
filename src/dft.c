@@ -167,3 +167,16 @@ void DFT_ShiftSpectrum(const complex_t *const input, complex_t *const output, ui
     }
 }
 
+void DFT_SpectrumNormalize(complex_t* const spectrum, uint32_t count)
+{
+    assert(spectrum != NULL);
+    assert(count > 0);
+
+    double scale = 2.0 / (double)count;
+
+    for (uint32_t i = 0; i < count; i++)
+    {
+        spectrum[i].real *= scale;
+        spectrum[i].imag *= scale;
+    }
+}
