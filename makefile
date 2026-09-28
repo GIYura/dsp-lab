@@ -22,10 +22,11 @@ NON_COHERENT_AVG := $(OUTDIR)/non_coherent_avg_demo
 SPECTRUM_SCALE := $(OUTDIR)/spectrum_scale_demo
 MAG_APPROX := $(OUTDIR)/magnitude_approximation_demo
 COMPLEX_MUL := $(OUTDIR)/complex_mul_demo
+RESTORE_SPECTRUM := $(OUTDIR)/restore_spectrum_demo
 
-.PHONY: all dft fft window convolution fir iir iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul clean help
+.PHONY: all dft fft window convolution fir iir iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum clean help
 
-all: dft fft window convolution fir iir iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul
+all: dft fft window convolution fir iir iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum
 
 dft: $(DFT)
 
@@ -58,6 +59,8 @@ spectrum_scale: $(SPECTRUM_SCALE)
 magnitude_approximation: $(MAG_APPROX)
 
 complex_mul: $(COMPLEX_MUL)
+
+restore_spectrum: $(RESTORE_SPECTRUM)
 
 $(OUTDIR):
 	@mkdir -p $@
@@ -125,6 +128,10 @@ $(MAG_APPROX): labs/magnitude_approximation/main.c src/signal.c src/config.c src
 $(COMPLEX_MUL): labs/complex_mul/main.c src/complex.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo 'COMPLEX MUL Done!'
+	
+$(RESTORE_SPECTRUM): labs/restore_spectrum/main.c src/signal.c src/dft.c | $(OUTDIR)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
+	@echo 'RESTORE SPECTRUM Done!'
 
 clean:
 	@$(RM) $(OUTDIR)
@@ -148,6 +155,7 @@ help:
 	@echo "  make spectrum_scale"
 	@echo "  make magnitude_approximation"
 	@echo "  make complex_mul"
+	@echo "  make restore_spectrum"
 	@echo ""
 	@echo "Build all labs:"
 	@echo "  make all"
