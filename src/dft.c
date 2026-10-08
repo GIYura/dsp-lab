@@ -120,7 +120,7 @@ void DFT_GenerateBins(bin_t *const bins, uint16_t count, double sampleRateHz)
     {
         int32_t shiftedIndex = (int32_t)i - half;
 
-        bins[i].number = i;
+        bins[i].number = shiftedIndex;
         bins[i].freqHz = (double)shiftedIndex * binStep;
     }
 }
@@ -143,7 +143,7 @@ void DFT_Print(const bin_t* const bins, const complex_t* const spectrum, uint16_
 
     for (uint16_t i = 0; i < count; i++)
     {
-        printf(" %3u | %13.3f | %11.4f | %11.4f | %9.4f\n",
+        printf(" %3d | %13.3f | %11.4f | %11.4f | %9.4f\n",
                 bins[i].number,
                 bins[i].freqHz,
                 spectrum[i].real,
@@ -180,3 +180,4 @@ void DFT_SpectrumNormalize(complex_t* const spectrum, uint32_t count)
         spectrum[i].imag *= scale;
     }
 }
+

@@ -9,13 +9,13 @@
 #define RAD_TO_DEGREE(x)    (((x) * 180) / PI)
 
 #define HARMONIC_COUNT      (3U)
-#define SAMPLE_COUNT        (64U)
+#define SAMPLE_COUNT        (8U)
 
 
 /* DFT and FFT bin description */
 typedef struct
 {
-    uint16_t number;
+    int16_t number;
     double freqHz;
 } bin_t;
 
