@@ -53,7 +53,8 @@ if (file_exists(file_spectrum_after)) {
 if (file_exists(file_amp_freq)) {
     set term qt 2 title "Amp freq IIR"
     set grid
-    set xrange [-4000:4000]
+    set xrange [0:8000]
+    set yrange [0:1.1]
     set xlabel "Frequency, Hz"
     set ylabel "Amplitude"
 

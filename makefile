@@ -24,10 +24,11 @@ MAG_APPROX := $(OUTDIR)/magnitude_approximation_demo
 COMPLEX_MUL := $(OUTDIR)/complex_mul_demo
 RESTORE_SPECTRUM := $(OUTDIR)/restore_spectrum_demo
 SPECTRUM_PEAK := $(OUTDIR)/spectrum_peak_demo
+Z_TRANSFORM := $(OUTDIR)/z_transform_demo
 
-.PHONY: all dft fft window convolution fir iir iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak clean help
+.PHONY: all dft fft window convolution fir iir iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak z_transform clean help
 
-all: dft fft window convolution fir iir iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak
+all: dft fft window convolution fir iir iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak z_transform
 
 dft: $(DFT)
 
@@ -65,80 +66,86 @@ restore_spectrum: $(RESTORE_SPECTRUM)
 
 spectrum_peak: $(SPECTRUM_PEAK)
 
+z_transform: $(Z_TRANSFORM)
+
 $(OUTDIR):
 	@mkdir -p $@
 
 $(DFT): labs/dft/main.c src/dft.c src/config.c src/signal.c src/save.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
-	@echo 'DFT Done!'
+	@echo '| DFT                     | Done! |'
 
 $(FFT): labs/fft/main.c src/fft.c src/config.c src/signal.c src/save.c src/complex.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
-	@echo 'FFT Done!'
+	@echo '| FFT                     | Done! |'
 
 $(WINDOW): labs/window/main.c src/config.c src/window.c src/signal.c src/save.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
-	@echo 'WINDOW Done!'
+	@echo '| WINDOW                  | Done! |'
 
 $(CONV): labs/convolution/main.c src/config.c src/convolution.c src/signal.c src/save.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
-	@echo 'CONV Done!'
+	@echo '| CONVOLITION             | Done! |'
 
 $(FIR): labs/fir/main.c src/fir.c src/signal.c src/dft.c src/convolution.c src/config.c src/window.c src/save.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
-	@echo 'FIR Done!'
+	@echo '| FIR                     | Done! |'
 
 $(IIR): labs/iir/main.c src/signal.c src/config.c src/iir.c src/dft.c src/save.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
-	@echo 'IIR Done!'
+	@echo '| IIR                     | Done! |'
 
 $(IQ): labs/iq/main.c src/signal.c src/config.c src/dft.c src/save.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
-	@echo 'IQ Done!'
+	@echo '| IQ                      | Done! |'
 
 $(SHIFT): labs/shift/main.c src/signal.c src/config.c src/dft.c src/save.c src/shift.c src/complex.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
-	@echo 'SHIFT Done!'
+	@echo '| SHIFT                   | Done! |'
 
 $(HILBERT): labs/hilbert/main.c src/signal.c src/config.c src/fir.c src/save.c src/convolution.c src/dft.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
-	@echo 'HILBERT Done!'
+	@echo '| HILBERT                 | Done! |'
 
 $(DECIMATION): labs/decimation/main.c src/signal.c src/config.c src/save.c src/decimation.c src/dft.c src/convolution.c src/window.c src/fir.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
-	@echo 'DECIMATION Done!'
+	@echo '| DECIMATION              | Done! |'
 	
 $(INTERPOLATION): labs/interpolation/main.c src/signal.c src/config.c src/save.c src/interpolation.c src/dft.c src/fir.c src/window.c src/convolution.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
-	@echo 'INTERPOLATION Done!'
+	@echo '| INTERPOLATION           | Done! |'
 	
 $(COHERENT_AVG): labs/coherent_avg/main.c src/signal.c src/config.c src/save.c src/noise.c src/stats.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
-	@echo 'COHERENT_AVG Done!'
+	@echo '| COHERENT_AVG            | Done! |'
 	
 $(NON_COHERENT_AVG): labs/non_coherent_avg/main.c src/signal.c src/config.c src/save.c src/noise.c src/stats.c src/dft.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
-	@echo 'NON_COHERENT_AVG Done!'
+	@echo '| NON_COHERENT_AVG        | Done! |'
 	
 $(SPECTRUM_SCALE): labs/spectrum_scale/main.c src/signal.c src/config.c src/save.c src/dft.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
-	@echo 'SPECTRUM_SCALE Done!'
+	@echo '| SPECTRUM_SCALE          | Done! |'
 	
 $(MAG_APPROX): labs/magnitude_approximation/main.c src/signal.c src/config.c src/save.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
-	@echo 'MAGNITUDE APPROXIMATION Done!'
+	@echo '| MAGNITUDE APPROXIMATION | Done! |'
 	
 $(COMPLEX_MUL): labs/complex_mul/main.c src/complex.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
-	@echo 'COMPLEX MUL Done!'
+	@echo '| COMPLEX MUL             | Done! |'
 	
 $(RESTORE_SPECTRUM): labs/restore_spectrum/main.c src/signal.c src/dft.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
-	@echo 'RESTORE SPECTRUM Done!'
+	@echo '| RESTORE SPECTRUM        | Done! |'
 	
 $(SPECTRUM_PEAK): labs/spectrum_peak/main.c src/signal.c src/config.c src/complex.c src/dft.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
-	@echo 'SPECTRUM PEAK Done!'
+	@echo '| SPECTRUM PEAK           | Done! |'
+	
+$(Z_TRANSFORM): labs/z-transform/main.c src/config.c src/iir.c src/save.c | $(OUTDIR)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
+	@echo '| Z-Transform             | Done! |'
 
 clean:
 	@$(RM) $(OUTDIR)
@@ -164,6 +171,7 @@ help:
 	@echo "  make complex_mul"
 	@echo "  make restore_spectrum"
 	@echo "  make spectrum_peak"
+	@echo "  make z_transform"
 	@echo ""
 	@echo "Build all labs:"
 	@echo "  make all"

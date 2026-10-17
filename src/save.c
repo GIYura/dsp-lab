@@ -87,3 +87,24 @@ void SaveTimeDat(const char *fileName, const double *in, uint32_t count, double 
 
     fclose(fp);
 }
+
+void SaveXYDat(const char* fileName, const double* x, const double* y, uint32_t count)
+{
+    assert(fileName != NULL);
+    assert(x != NULL);
+    assert(y != NULL);
+
+    FILE *fp = fopen(fileName, "w");
+
+    if (!fp)
+    {
+        return;
+    }
+
+    for (uint32_t i = 0; i < count; i++)
+    {
+        fprintf(fp, "%.9f %.6f\n", x[i], y[i]);
+    }
+
+    fclose(fp);
+}

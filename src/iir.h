@@ -17,5 +17,6 @@ typedef struct
 void IIR_LowPassGenerate(iir_t* filter, double sampleRateHz, double cutoffHz);
 void IIR_Calculate(iir_t* const filter, const double* const samples, double* output, uint32_t size);
 void IIR_Print(const iir_t* const filter);
+void IIR_Z_Transform(double a, double b, double* const outFreq, double* const outMagnitude, double sampleRateHz, uint32_t size);
 
 #endif /* IIR_H */

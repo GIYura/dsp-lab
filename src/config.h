@@ -9,7 +9,7 @@
 #define RAD_TO_DEGREE(x)    (((x) * 180) / PI)
 
 #define HARMONIC_COUNT      (3U)
-#define SAMPLE_COUNT        (8U)
+#define SAMPLE_COUNT        (128U)
 
 
 /* DFT and FFT bin description */

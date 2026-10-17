@@ -27,5 +27,6 @@ void SaveSpectrumDat(const char* const fileName, const bin_t* bins, const comple
 void SaveDat(const char* const fileName, const double* const in, uint32_t count);
 void SaveIQDat(const char* const fileName, const complex_t* const in, uint32_t count);
 void SaveTimeDat(const char *fileName, const double *in, uint32_t count, double sampleRateHz);
+void SaveXYDat(const char* fileName, const double* x, const double* y, uint32_t count);
 
 #endif /* SAVE_H */
