@@ -1,10 +1,11 @@
 # ============================================================
-# Plot IIR demo
+# Plot IIR Second order demo
 # ============================================================
 
 file_spectrum_before = "output/spectrum_before_iir.dat"
 file_spectrum_after = "output/spectrum_after_iir.dat"
-file_amp_freq = "output/amp_freq_iir.dat"
+file_amp_freq_1 = "output/amp_freq_iir_impulse_response.dat"
+file_amp_freq_2 = "output/amp_freq_iir_z_trans.dat"
 file_input = "output/input.dat"
 
 #
@@ -23,7 +24,7 @@ if (file_exists(file_spectrum_before)) {
     set grid
     set xtics 1000
     set xlabel "Frequency, Hz"
-	set ylabel "Magnitude"
+    set ylabel "Magnitude"
 
     plot file_spectrum_before using 2:3 with lines lw 3 notitle
 } else {
@@ -39,7 +40,7 @@ if (file_exists(file_spectrum_after)) {
     set grid
     set xtics 1000
     set xlabel "Frequency, Hz"
-	set ylabel "Magnitude"
+    set ylabel "Magnitude"
 
     plot file_spectrum_after using 2:3 with lines lw 3 notitle
 } else {
@@ -48,19 +49,36 @@ if (file_exists(file_spectrum_after)) {
 }
 
 #
-# Amplitude Frequency Characteristics IIR
+# Amplitude Frequency Characteristics IIR based on impulse response
 #
-if (file_exists(file_amp_freq)) {
-    set term qt 2 title "Amp freq IIR"
+if (file_exists(file_amp_freq_1)) {
+    set term qt 2 title "Amp freq IIR impulse response"
     set grid
     set xrange [0:8000]
-    set yrange [0:1.1]
+    set yrange [0:*]
     set xlabel "Frequency, Hz"
     set ylabel "Amplitude"
 
-    plot file_amp_freq using 2:3 with lines lw 3 notitle
+    plot file_amp_freq_1 using 2:3 with lines lw 3 notitle
 } else {
-    print sprintf("WARNING: '%s' not found.", file_amp_freq)
+    print sprintf("WARNING: '%s' not found.", file_amp_freq_1)
+    #exit -1
+}
+
+#
+# Amplitude Frequency Characteristics IIR based Z-Transform
+#
+if (file_exists(file_amp_freq_2)) {
+    set term qt 3 title "Amp freq IIR Z-transform"
+    set grid
+    set xrange [0:8000]
+    set yrange [0:*]
+    set xlabel "Frequency, Hz"
+    set ylabel "Amplitude"
+
+    plot file_amp_freq_2 using 1:2 with lines lw 3 notitle
+} else {
+    print sprintf("WARNING: '%s' not found.", file_amp_freq_2)
     #exit -1
 }
 
@@ -68,7 +86,7 @@ if (file_exists(file_amp_freq)) {
 # Input signal
 #
 if (file_exists(file_input)) {
-    set term qt 3 title "Input signal"
+    set term qt 4 title "Input signal"
     set grid
     set xtics 10
     set xrange [0:150]
