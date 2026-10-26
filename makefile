@@ -26,10 +26,11 @@ MAG_APPROX := $(OUTDIR)/magnitude_approximation_demo
 COMPLEX_MUL := $(OUTDIR)/complex_mul_demo
 RESTORE_SPECTRUM := $(OUTDIR)/restore_spectrum_demo
 SPECTRUM_PEAK := $(OUTDIR)/spectrum_peak_demo
+BIQUAD := $(OUTDIR)/biquad_demo
 
-.PHONY: all dft fft window convolution fir iir_1_order iir_2_order iir_2_order_complex_pole iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak clean help
+.PHONY: all dft fft window convolution biquad fir iir_1_order iir_2_order iir_2_order_complex_pole iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak clean help
 
-all: dft fft window convolution fir iir_1_order iir_2_order iir_2_order_complex_pole iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak
+all: dft fft window convolution biquad fir iir_1_order iir_2_order iir_2_order_complex_pole iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak
 
 dft: $(DFT)
 
@@ -71,6 +72,8 @@ restore_spectrum: $(RESTORE_SPECTRUM)
 
 spectrum_peak: $(SPECTRUM_PEAK)
 
+biquad: $(BIQUAD)
+
 $(OUTDIR):
 	@mkdir -p $@
 
@@ -102,7 +105,7 @@ $(IIR_2_ORDER): labs/iir-2-order/main.c src/signal.c src/config.c src/iir.c src/
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo '| IIR-2-ORDER                  | Done! |'
 	
-$(IIR_2_ORDER_COMPLEX_POLE): labs/iir-2-order-complex-poles/main.c src/config.c src/iir.c src/complex.c src/save.c | $(OUTDIR)
+$(IIR_2_ORDER_COMPLEX_POLE): labs/iir-2-order-complex-poles/main.c src/config.c src/iir.c src/complex.c src/save.c src/biquad.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo '| IIR-2-ORDER-COMPLEX-POLE     | Done! |'
 
@@ -153,6 +156,10 @@ $(RESTORE_SPECTRUM): labs/restore_spectrum/main.c src/signal.c src/dft.c | $(OUT
 $(SPECTRUM_PEAK): labs/spectrum_peak/main.c src/signal.c src/config.c src/complex.c src/dft.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo '| SPECTRUM PEAK                | Done! |'
+	
+$(BIQUAD): labs/biquad/main.c src/biquad.c src/dft.c src/save.c | $(OUTDIR)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
+	@echo '| BIQUAD                       | Done! |'
 
 clean:
 	@$(RM) $(OUTDIR)
@@ -180,6 +187,7 @@ help:
 	@echo "  make complex_mul"
 	@echo "  make restore_spectrum"
 	@echo "  make spectrum_peak"
+	@echo "  make biquad"
 	@echo ""
 	@echo "Build all labs:"
 	@echo "  make all"
