@@ -28,6 +28,14 @@ void IIR_FirstOrderInit(IIR_First_Order_t* const filter)
     filter->y = 0.0;
 }
 
+void IIR_FirstOrderSetCoefficients(IIR_First_Order_t* const filter, double a, double b)
+{
+    assert(filter != NULL);
+
+    filter->a = a;
+    filter->b = b;
+}
+
 void IIR_FirstOrderLowPassGenerate(IIR_First_Order_t *const filter, double sampleRateHz, double cutoffHz)
 {
     assert(filter != NULL);
@@ -121,6 +129,15 @@ void IIR_SecondOrderInit(IIR_Second_Order_t* const filter)
     filter->y[1] = 0.0;
 }
 
+void IIR_SecondOrderSetCoefficients(IIR_Second_Order_t* const filter, double a, double b0, double b1)
+{
+    assert(filter != NULL);
+
+    filter->a = a;
+    filter->b[0] = b0;
+    filter->b[1] = b1;
+}
+
 void IIR_SecondOrderLowPassGenerate(IIR_Second_Order_t* const filter, double sampleRateHz, double cutoffHz)
 {
     assert(filter != NULL);
@@ -208,3 +225,58 @@ void IIR_SecondOrderMagnitudeResponse(const IIR_Second_Order_t* const filter, do
         outMagnitude[i] = magnitude;
     }
 }
+
+const char* IIR_SecondOrderStability(double pole1, double pole2)
+{
+    return (pole1 < 1.0 && pole2 < 1.0) ? "Stable" : "Unstable";
+}
+
+double IIR_SecondOrderSelfFreq(double angleRad, double freqSampleHz)
+{
+    return (fabs(angleRad) * freqSampleHz) / (2.0 * PI);
+}
+
+double IIR_SecondOrderPoleModule(complex_t* const pole)
+{
+    assert(pole != NULL);
+
+    return sqrt(pole->imag * pole->imag + pole->real * pole->real);
+}
+
+double IIR_SecondOrderPoleAngle(complex_t* const pole)
+{
+    assert(pole != NULL);
+
+    return atan2(pole->imag, pole->real);
+}
+
+void IIR_SecondOrderPoles(double b0, double b1, complex_t* const z1, complex_t* const z2)
+{
+    assert(z1 != NULL);
+    assert(z2 != NULL);
+
+    double B = -b0;
+    double C = -b1;
+    double D = B * B - 4.0 * C;
+
+    if (D >= 0.0)
+    {
+        z1->real = (-B + sqrt(D)) / 2.0;
+        z2->real = (-B - sqrt(D)) / 2.0;
+
+        z1->imag = 0.0;
+        z2->imag = 0.0;
+    }
+    else
+    {
+        double real = -B / 2.0;
+        double imag = sqrt(-D) / 2.0;
+
+        z1->real = real;
+        z1->imag = -imag;
+
+        z2->real = real;
+        z2->imag = imag;
+    }
+}
+

@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+#include "complex.h"
+
 typedef struct
 {
     double a;       /* Feedforward coefficient */
@@ -23,6 +25,8 @@ typedef struct
 * [in] filter - pointer to filter storage
 * */
 void IIR_FirstOrderInit(IIR_First_Order_t* const filter);
+
+void IIR_FirstOrderSetCoefficients(IIR_First_Order_t* const filter, double a, double b);
 
 /*
 * Brief: Generate first-order IIR low-pass filter coefficients.
@@ -70,6 +74,8 @@ void IIR_FirstOrderMagnitudeResponse(const IIR_First_Order_t* const filter, doub
 * */
 void IIR_SecondOrderInit(IIR_Second_Order_t* const filter);
 
+void IIR_SecondOrderSetCoefficients(IIR_Second_Order_t* const filter, double a, double b0, double b1);
+
 /*
 * Brief: Generate second-order IIR low-pass filter coefficients.
 *        The filter is equivalent to two cascaded identical
@@ -113,5 +119,11 @@ void IIR_SecondOrderPrint(const IIR_Second_Order_t* const filter);
 * [out] - none
 * */
 void IIR_SecondOrderMagnitudeResponse(const IIR_Second_Order_t* const filter, double *outFreq, double *outMagnitude, double sampleRateHz, uint32_t size);
+
+const char* IIR_SecondOrderStability(double pole1, double pole2);
+double IIR_SecondOrderSelfFreq(double angleRad, double freqSampleHz);
+double IIR_SecondOrderPoleModule(complex_t* const pole);
+double IIR_SecondOrderPoleAngle(complex_t* const pole);
+void IIR_SecondOrderPoles(double b0, double b1, complex_t* const z1, complex_t* const z2);
 
 #endif /* IIR_H */

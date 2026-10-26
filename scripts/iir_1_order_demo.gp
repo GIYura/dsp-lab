@@ -54,6 +54,7 @@ if (file_exists(file_spectrum_after)) {
 if (file_exists(file_amp_freq_1)) {
     set term qt 2 title "Amp freq IIR impulse response"
     set grid
+    set ytics 0.1
     set xrange [0:8000]
     set yrange [0:*]
     set xlabel "Frequency, Hz"
@@ -71,6 +72,7 @@ if (file_exists(file_amp_freq_1)) {
 if (file_exists(file_amp_freq_2)) {
     set term qt 3 title "Amp freq IIR Z-transform"
     set grid
+    set ytics 0.1
     set xrange [0:8000]
     set yrange [0:*]
     set xlabel "Frequency, Hz"
