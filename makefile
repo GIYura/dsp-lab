@@ -157,7 +157,7 @@ $(SPECTRUM_PEAK): labs/spectrum_peak/main.c src/signal.c src/config.c src/comple
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo '| SPECTRUM PEAK                | Done! |'
 	
-$(BIQUAD): labs/biquad/main.c src/biquad.c src/dft.c src/save.c | $(OUTDIR)
+$(BIQUAD): labs/biquad/main.c src/biquad.c src/dft.c src/save.c src/sos.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo '| BIQUAD                       | Done! |'
 

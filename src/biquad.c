@@ -1,6 +1,5 @@
 #include <assert.h>
 #include <stddef.h>
-#include <math.h>
 #include <stdio.h>
 
 #include "biquad.h"
