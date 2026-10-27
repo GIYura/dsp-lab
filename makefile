@@ -27,10 +27,11 @@ COMPLEX_MUL := $(OUTDIR)/complex_mul_demo
 RESTORE_SPECTRUM := $(OUTDIR)/restore_spectrum_demo
 SPECTRUM_PEAK := $(OUTDIR)/spectrum_peak_demo
 BIQUAD := $(OUTDIR)/biquad_demo
+BUTTERWORTH := $(OUTDIR)/butterworth_demo
 
-.PHONY: all dft fft window convolution biquad fir iir_1_order iir_2_order iir_2_order_complex_pole iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak clean help
+.PHONY: all dft fft window convolution biquad butterworth fir iir_1_order iir_2_order iir_2_order_complex_pole iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak clean help
 
-all: dft fft window convolution biquad fir iir_1_order iir_2_order iir_2_order_complex_pole iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak
+all: dft fft window convolution biquad butterworth fir iir_1_order iir_2_order iir_2_order_complex_pole iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak
 
 dft: $(DFT)
 
@@ -73,6 +74,8 @@ restore_spectrum: $(RESTORE_SPECTRUM)
 spectrum_peak: $(SPECTRUM_PEAK)
 
 biquad: $(BIQUAD)
+
+butterworth: $(BUTTERWORTH)
 
 $(OUTDIR):
 	@mkdir -p $@
@@ -157,9 +160,13 @@ $(SPECTRUM_PEAK): labs/spectrum_peak/main.c src/signal.c src/config.c src/comple
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo '| SPECTRUM PEAK                | Done! |'
 	
-$(BIQUAD): labs/biquad/main.c src/biquad.c src/dft.c src/save.c src/sos.c | $(OUTDIR)
+$(BIQUAD): labs/biquad/main.c src/biquad.c src/dft.c src/save.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo '| BIQUAD                       | Done! |'
+	
+$(BUTTERWORTH): labs/butterworth/main.c src/biquad.c src/dft.c src/save.c src/sos.c | $(OUTDIR)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
+	@echo '| BUTTERWORTH                  | Done! |'
 
 clean:
 	@$(RM) $(OUTDIR)
@@ -188,6 +195,7 @@ help:
 	@echo "  make restore_spectrum"
 	@echo "  make spectrum_peak"
 	@echo "  make biquad"
+	@echo "  make butterworth"
 	@echo ""
 	@echo "Build all labs:"
 	@echo "  make all"
