@@ -28,19 +28,19 @@ int main (void)
     SosInit(&sos);
 
     /* add biquad sections to sos */
-    if (!SosAddSection(&sos, -0.7439938352675736, 0.15131005454964727, 0.0017281882044323442, 0.0034563764088646884, 0.0017281882044323442))
+    if (!SosAddSection(&sos, 0.0017281882044323442, 0.0034563764088646884, 0.0017281882044323442, 1, -0.7439938352675736, 0.15131005454964727))
     {
         printf("Failed to add section [%d] to SOS\n", SosGetSectionCount(&sos));
         return 1;
     }
 
-    if (!SosAddSection(&sos, -0.8394406674521644, 0.2990114095340083, 1.0, 2.0, 1.0))
+    if (!SosAddSection(&sos, 1, 2, 1, 1, -0.8394406674521644, 0.2990114095340083))
     {
         printf("Failed to add section [%d] to SOS\n", SosGetSectionCount(&sos));
         return 1;
     }
 
-    if (!SosAddSection(&sos, -1.0792562377995951, 0.6701194272224298, 1.0, 2.0, 1.0))
+    if (!SosAddSection(&sos, 1, 2, 1, 1, -1.0792562377995951, 0.6701194272224298))
     {
         printf("Failed to add section [%d] to SOS\n", SosGetSectionCount(&sos));
         return 1;

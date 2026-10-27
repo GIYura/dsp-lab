@@ -15,7 +15,7 @@ typedef struct
 
 void SosInit(sos_t* const sos);
 void SosReset(sos_t* const sos);
-bool SosAddSection(sos_t* const sos, double a1, double a2, double b0, double b1, double b2);
+bool SosAddSection(sos_t* const sos, double b0, double b1, double b2, double a0, double a1, double a2);
 bool SosProcess(sos_t* const sos, const double* const in, double* const out, uint32_t count);
 uint32_t SosGetSectionCount(const sos_t* const sos);
 

@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 #include "sos.h"
 
@@ -27,18 +28,59 @@ void SosReset(sos_t* const sos)
     }
 }
 
-bool SosAddSection(sos_t* const sos, double a1, double a2, double b0, double b1, double b2)
+bool SosAddSection(sos_t* const sos, double b0, double b1, double b2, double a0, double a1, double a2)
 {
     assert(sos != NULL);
+
+    double b0_normalized;
+    double b1_normalized;
+    double b2_normalized;
+    double a1_normalized;
+    double a2_normalized;
 
     if (sos->count >= SOS_SECTIONS_MAX)
     {
         return false;
     }
 
+    if ( (!isfinite(b0)) ||
+         (!isfinite(b1)) ||
+         (!isfinite(b2)) ||
+         (!isfinite(a0)) ||
+         (!isfinite(a1)) ||
+         (!isfinite(a2)))
+    {
+        return false;
+    }
+
+    if (a0 == 0)
+    {
+        return false;
+    }
+
+    b0_normalized = b0 / a0;
+    b1_normalized = b1 / a0;
+    b2_normalized = b2 / a0;
+    a1_normalized = a1 / a0;
+    a2_normalized = a2 / a0;
+
+    if ( (!isfinite(b0_normalized)) ||
+         (!isfinite(b1_normalized)) ||
+         (!isfinite(b2_normalized)) ||
+         (!isfinite(a1_normalized)) ||
+         (!isfinite(a2_normalized)))
+    {
+        return false;
+    }
+
     BiquadReset(&sos->sections[sos->count]);
 
-    BiquadSetCoefficients(&sos->sections[sos->count], a1, a2, b0, b1, b2);
+    BiquadSetCoefficients(&sos->sections[sos->count],
+                          a1_normalized,
+                          a2_normalized,
+                          b0_normalized,
+                          b1_normalized,
+                          b2_normalized);
 
     ++sos->count;
 
