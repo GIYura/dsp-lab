@@ -167,7 +167,7 @@ $(BIQUAD): labs/biquad/main.c src/biquad.c src/dft.c src/save.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo '| BIQUAD                       | Done! |'
 	
-$(BUTTERWORTH): labs/butterworth/main.c src/biquad.c src/dft.c src/save.c src/sos.c | $(OUTDIR)
+$(BUTTERWORTH): labs/butterworth/main.c src/biquad.c src/dft.c src/save.c src/sos.c src/signal.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo '| BUTTERWORTH                  | Done! |'
 	
