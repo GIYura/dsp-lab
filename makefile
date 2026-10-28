@@ -29,10 +29,12 @@ SPECTRUM_PEAK := $(OUTDIR)/spectrum_peak_demo
 BIQUAD := $(OUTDIR)/biquad_demo
 BUTTERWORTH := $(OUTDIR)/butterworth_demo
 BUTTERWORTH_FLOAT_VS_DOUBLE := $(OUTDIR)/butterworth_float_vs_double_demo
+CHEBYSHEV_I := $(OUTDIR)/chebyshev_I_demo
+CHEBYSHEV_II := $(OUTDIR)/chebyshev_II_demo
 
-.PHONY: all dft fft window convolution biquad butterworth butterworth_float_vs_double fir iir_1_order iir_2_order iir_2_order_complex_pole iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak clean help
+.PHONY: all dft fft window convolution biquad butterworth chebyshev_I chebyshev_II butterworth_float_vs_double fir iir_1_order iir_2_order iir_2_order_complex_pole iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak clean help
 
-all: dft fft window convolution biquad butterworth butterworth_float_vs_double fir iir_1_order iir_2_order iir_2_order_complex_pole iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak
+all: dft fft window convolution biquad butterworth chebyshev_I chebyshev_II butterworth_float_vs_double fir iir_1_order iir_2_order iir_2_order_complex_pole iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak
 
 dft: $(DFT)
 
@@ -79,6 +81,10 @@ biquad: $(BIQUAD)
 butterworth: $(BUTTERWORTH)
 
 butterworth_float_vs_double: $(BUTTERWORTH_FLOAT_VS_DOUBLE)
+
+chebyshev_I: $(CHEBYSHEV_I)
+
+chebyshev_II: $(CHEBYSHEV_II)
 
 $(OUTDIR):
 	@mkdir -p $@
@@ -174,6 +180,14 @@ $(BUTTERWORTH): labs/butterworth/main.c src/biquad.c src/dft.c src/save.c src/so
 $(BUTTERWORTH_FLOAT_VS_DOUBLE): labs/butterworth-float-vs-double/main.c src/biquad.c src/dft.c src/save.c src/sos.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo '| BUTTERWORTH-FLOAT-VS-DOUBLE  | Done! |'
+	
+$(CHEBYSHEV_I): labs/chebyshev_I/main.c src/biquad.c src/dft.c src/save.c src/sos.c src/signal.c | $(OUTDIR)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
+	@echo '| CHEBYSHEV_I                  | Done! |'
+	
+$(CHEBYSHEV_II): labs/chebyshev_II/main.c src/biquad.c src/dft.c src/save.c src/sos.c src/signal.c | $(OUTDIR)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
+	@echo '| CHEBYSHEV_II                 | Done! |'
 
 clean:
 	@$(RM) $(OUTDIR)
@@ -204,6 +218,8 @@ help:
 	@echo "  make biquad"
 	@echo "  make butterworth"
 	@echo "  make butterworth_float_vs_double"
+	@echo "  make chebyshev_I"
+	@echo "  make chebyshev_II"
 	@echo ""
 	@echo "Build all labs:"
 	@echo "  make all"
