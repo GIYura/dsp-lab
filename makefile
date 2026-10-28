@@ -28,10 +28,11 @@ RESTORE_SPECTRUM := $(OUTDIR)/restore_spectrum_demo
 SPECTRUM_PEAK := $(OUTDIR)/spectrum_peak_demo
 BIQUAD := $(OUTDIR)/biquad_demo
 BUTTERWORTH := $(OUTDIR)/butterworth_demo
+BUTTERWORTH_FLOAT_VS_DOUBLE := $(OUTDIR)/butterworth_float_vs_double_demo
 
-.PHONY: all dft fft window convolution biquad butterworth fir iir_1_order iir_2_order iir_2_order_complex_pole iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak clean help
+.PHONY: all dft fft window convolution biquad butterworth butterworth_float_vs_double fir iir_1_order iir_2_order iir_2_order_complex_pole iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak clean help
 
-all: dft fft window convolution biquad butterworth fir iir_1_order iir_2_order iir_2_order_complex_pole iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak
+all: dft fft window convolution biquad butterworth butterworth_float_vs_double fir iir_1_order iir_2_order iir_2_order_complex_pole iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak
 
 dft: $(DFT)
 
@@ -76,6 +77,8 @@ spectrum_peak: $(SPECTRUM_PEAK)
 biquad: $(BIQUAD)
 
 butterworth: $(BUTTERWORTH)
+
+butterworth_float_vs_double: $(BUTTERWORTH_FLOAT_VS_DOUBLE)
 
 $(OUTDIR):
 	@mkdir -p $@
@@ -167,6 +170,10 @@ $(BIQUAD): labs/biquad/main.c src/biquad.c src/dft.c src/save.c | $(OUTDIR)
 $(BUTTERWORTH): labs/butterworth/main.c src/biquad.c src/dft.c src/save.c src/sos.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo '| BUTTERWORTH                  | Done! |'
+	
+$(BUTTERWORTH_FLOAT_VS_DOUBLE): labs/butterworth-float-vs-double/main.c src/biquad.c src/dft.c src/save.c src/sos.c | $(OUTDIR)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
+	@echo '| BUTTERWORTH-FLOAT-VS-DOUBLE  | Done! |'
 
 clean:
 	@$(RM) $(OUTDIR)
@@ -196,6 +203,7 @@ help:
 	@echo "  make spectrum_peak"
 	@echo "  make biquad"
 	@echo "  make butterworth"
+	@echo "  make butterworth_float_vs_double"
 	@echo ""
 	@echo "Build all labs:"
 	@echo "  make all"
