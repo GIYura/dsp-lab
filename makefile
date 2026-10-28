@@ -31,10 +31,11 @@ BUTTERWORTH := $(OUTDIR)/butterworth_demo
 BUTTERWORTH_FLOAT_VS_DOUBLE := $(OUTDIR)/butterworth_float_vs_double_demo
 CHEBYSHEV_I := $(OUTDIR)/chebyshev_I_demo
 CHEBYSHEV_II := $(OUTDIR)/chebyshev_II_demo
+ELLIPTIC := $(OUTDIR)/elliptic_demo
 
-.PHONY: all dft fft window convolution biquad butterworth chebyshev_I chebyshev_II butterworth_float_vs_double fir iir_1_order iir_2_order iir_2_order_complex_pole iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak clean help
+.PHONY: all dft fft window convolution biquad butterworth chebyshev_I chebyshev_II elliptic butterworth_float_vs_double fir iir_1_order iir_2_order iir_2_order_complex_pole iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak clean help
 
-all: dft fft window convolution biquad butterworth chebyshev_I chebyshev_II butterworth_float_vs_double fir iir_1_order iir_2_order iir_2_order_complex_pole iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak
+all: dft fft window convolution biquad butterworth chebyshev_I chebyshev_II elliptic butterworth_float_vs_double fir iir_1_order iir_2_order iir_2_order_complex_pole iq shift hilbert decimation interpolation coherent_avg non_coherent_avg spectrum_scale magnitude_approximation complex_mul restore_spectrum spectrum_peak
 
 dft: $(DFT)
 
@@ -85,6 +86,8 @@ butterworth_float_vs_double: $(BUTTERWORTH_FLOAT_VS_DOUBLE)
 chebyshev_I: $(CHEBYSHEV_I)
 
 chebyshev_II: $(CHEBYSHEV_II)
+
+elliptic: $(ELLIPTIC)
 
 $(OUTDIR):
 	@mkdir -p $@
@@ -188,6 +191,10 @@ $(CHEBYSHEV_I): labs/chebyshev_I/main.c src/biquad.c src/dft.c src/save.c src/so
 $(CHEBYSHEV_II): labs/chebyshev_II/main.c src/biquad.c src/dft.c src/save.c src/sos.c src/signal.c | $(OUTDIR)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 	@echo '| CHEBYSHEV_II                 | Done! |'
+	
+$(ELLIPTIC): labs/elliptic/main.c src/biquad.c src/dft.c src/save.c src/sos.c src/signal.c | $(OUTDIR)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
+	@echo '| ELLIPTIC                     | Done! |'
 
 clean:
 	@$(RM) $(OUTDIR)
@@ -220,6 +227,7 @@ help:
 	@echo "  make butterworth_float_vs_double"
 	@echo "  make chebyshev_I"
 	@echo "  make chebyshev_II"
+	@echo "  make elliptic"
 	@echo ""
 	@echo "Build all labs:"
 	@echo "  make all"
